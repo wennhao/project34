@@ -4,7 +4,9 @@ export default function SaldoScherm(){
 
 
 return (
-    <div>Saldoscherm!</div>
+    <div className="App">
+        Saldoscherm!
+    </div>
 );
 
 }

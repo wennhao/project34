@@ -11,27 +11,11 @@ export default function App() {
       <header className="App-header">
        
         <div>
-          <MyButton />
-          <MyButton />
           <Button1 />
         </div>
 
       </header>
     </div>
-  );
-}
-
-function MyButton() {
-  const [count, setCount] = useState(0);
-
-  function handleClick() {
-    setCount(count + 1);
-  }
-
-  return (
-    <button onClick={handleClick}>
-      I'm a button! [{count}]
-    </button>
   );
 }
 
@@ -42,7 +26,7 @@ function Button1() {
   }
   return (
     <button onClick={handleClick}>
-      Ga naar Saldo Scherm!
+      Klik om naar de Saldo Scherm te gaan!
     </button>
   );
 }
