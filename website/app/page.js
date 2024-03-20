@@ -4,25 +4,29 @@ import React from 'react';
 import './globals.css'; // Importing CSS for styling
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Head from 'next/head';
+import Link from 'next/link'
+
 
 export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-       
-        <div>
-          <Button1 />
-        </div>
-
-      </header>
-    </div>
+    <>
+      <Head>
+        <link rel="stylesheet" href="https://use.typekit.net/tzk6xve.css" />
+      </Head>
+      {/* Page Content */}
+      <p>oi oi oi</p>
+      <div>
+        <Button1 />
+      </div>
+    </>
   );
 }
 
 function Button1() {
   const router = useRouter();
   function handleClick() {
-      router.push("/saldoscherm");
+    router.push("/saldoscherm");
   }
   return (
     <button onClick={handleClick}>
