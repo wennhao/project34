@@ -9,21 +9,8 @@ export default function SaldoScherm(){
 
 return (
     <div className="App">
-        <TerugButton />
         <Link href="/pinscherm">pinscherm</Link>
     </div>
 );
 
-}
-
-function TerugButton() {
-    const router = useRouter();
-  function handleClick() {
-      router.push("./");
-  }
-  return (
-    <button onClick={handleClick}>
-      Klik om terug te gaan!
-    </button>
-  );
 }

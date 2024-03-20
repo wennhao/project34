@@ -14,11 +14,11 @@ export default function RootLayout({ children }) {
       <body>
         <div className="App">
           {/* Container for image and bar, aligned to the top left of the viewport */}
-          <div className="absolute top-0 left-0">
+          <div className="absolute top-2 left-0">
             {/* Image in the top left corner */}
-            <img src="/wing.png" alt="ChitChat Logo" className="h-max w-max" />
+            <img src="/wingiconbig.png" alt="Logo Wing" className="h-1/6 w-1/6 mb-3 ml-7 mt-2" />
             {/* Horizontal bar underneath */}
-            <div className="w-screen h-7 bg-CamoGreen"></div>
+            <div className="w-screen h-3 bg-camogreen"></div>
           </div>
 
 

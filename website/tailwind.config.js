@@ -8,10 +8,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        DarkGreen: '#12372A',
-        CamoGreen: '#436850',
-        LightGreen: '#ADBC9F',
-        LightYellow: '#FBFADA',
+        darkgreen: '#12372A',
+        camogreen: '#436850',
+        lightgreen: '#ADBC9F',
+        lightyellow: '#FBFADA',
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

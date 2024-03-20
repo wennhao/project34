@@ -31,6 +31,35 @@
   font-size: calc(10px + 2vmin);
 }
 
-.Button1 {
-  
+.buttons-container {
+  display: flex;
+  justify-content: space-between; /* Keeps the button groups at the sides */
+  padding: 20px; /* Adds some padding around the container */
+  align-items: flex-start; /* Aligns items at the start of the flex container */
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column; /* Stacks buttons vertically */
+  gap: 10px; /* Adjusts the space between buttons */
+}
+
+.button {
+  background-color: #f0f0f0; /* Button background color */
+  color: #12372A; /* Button text color */
+  padding: 10px 20px;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  text-align: left; /* Aligns button text to the left */
+
+}
+
+.button:hover {
+  background-color: #e0e0e0; /* Hover state background color */
+}
+
+.spacer {
+  flex-grow: 1;
+  min-width: 330px; /* Guarantees a minimum gap of 50px between button groups */
 }
