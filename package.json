@@ -3,7 +3,7 @@
     "express": "^4.19.2",
     "johnny-five": "^2.1.0",
     "mysql": "^2.18.1",
-    "mysql2": "^3.9.2",
+    "mysql2": "^3.9.4",
     "serialport": "^10.5.0",
     "socket.io": "^4.7.5",
     "socketio": "^1.0.0"
@@ -20,5 +20,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "��#\u0000 \u0000B\u0000a\u0000n\u0000k\u0000_\u0000a\u0000u\u0000t\u0000o\u0000m\u0000a\u0000a\u0000t\u0000\r\u0000 \u0000#\u0000 \u0000B\u0000a\u0000n\u0000k\u0000A\u0000u\u0000t\u0000o\u0000m\u0000a\u0000a\u0000t\u0000\r\u0000 \u0000"
 }
