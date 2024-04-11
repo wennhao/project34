@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+    <head>
+        
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js'></script>
+        
+        <style>
+           /* CSS to make the image cover the entire viewport */
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+        background-color: rgb(173, 188, 159);
+      }
+ /*     img {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Ensure the image covers the entire viewport 
+      }*/
+
+      .container {
+        position: relative;
+        width: 100%;
+      }
+      img {
+        width: 100%;
+        height: auto;
+      }
+      .text-overlay {
+        position: absolute;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 24px;
+        text-align: center;
+      }
+      #sample{
+        display: flex;
+      }
+      .keypad{
+        margin-right: 25px;
+        
+        
+      }
+        </style>
+        
+    </head>
+    <body>
+        <div class="container">
+            <div><img src="../pictures/PinScherm.png" alt="Fullscreen Image">
+                <div class="text-overlay">
+                    <div id="sample"></div>
+                    <a href="../Startscherm/Startscherm.html"></a>
+                </div>
+                
+        </div>
+        
+        <script>
+            var socket = io();
+            var userInput = "";
+            var newDiv;
+            var block;
+            fetch('/data')
+            .then(res => res.json())
+            .then(data1=> {
+              console.log(data1);
+              jsonData = data1;
+            })
+            .catch(error => console.error('Error fethcing data'))
+
+            socket.on('keypadData', function(data) {
+           
+                // Create a new div element for each keypad input
+                var maxdivs = 4;
+                var input = document.getElementById("sample");
+                if(input.childElementCount < maxdivs){
+                newDiv = document.createElement("div");
+                newDiv.textContent = data.key1;
+
+                newDiv.classList.add("keypad");
+    
+                // Append the new div to the keypadInputs div
+                block = document.getElementById("sample").appendChild(newDiv);
+               
+                  //resets input
+                  document.addEventListener('keydown', function(event){
+                    if(event.keyCode === 48){
+                      document.getElementById("sample").innerHTML = "";
+                    }
+                  });
+                  
+                
+                }
+            });
+
+            //erase sample block
+            socket.on('erase', function(){
+              document.getElementById('sample').innerHTML = "";
+            });
+
+            socket.on('enter', function(data){
+              var input = "";
+              var keypadelements = document.getElementsByClassName("keypad");
+              for(var i = 0; i < keypadelements.length; i++){
+                input += keypadelements[i].textContent.trim();
+              }
+              
+              console.log(input)
+              if(jsonData.block === input){
+                console.log('correct');
+                const next = 'http://localhost:3000/Select/Select.html';
+                window.location.href = next;
+                window.location.assign(next);
+                window.location.replace(next);
+              } else{
+                console.log('incorrect');
+                alert("try again");
+            }
+             
+          })
+          
+         
+            //press enter to check value
+        </script>
+    </div>
+    </body>
+</html> 
