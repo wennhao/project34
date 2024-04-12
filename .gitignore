@@ -2,3 +2,7 @@
 node_modules/
 package.json
 package-lock.json
+
+
+#Database ignore
+.env
