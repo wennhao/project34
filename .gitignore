@@ -1,6 +1,4 @@
 *.log
-package.json
-package-lock.json
 
 
 #Database ignore
