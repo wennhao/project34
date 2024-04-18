@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js'></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Bank Balance Inquiry</title>
@@ -9,5 +10,15 @@
     <h1>Hello! Welcome to Bank Balance Inquiry</h1>
     <p>Click the button below to proceed to balance inquiry.</p>
     <button onclick="window.location.href='/balance-inquiry'">Balance Inquiry</button>
+    <script>
+        var socket = io();
+        socket.on('button1', function(data) {
+            const next = 'http://localhost:3000/src1/index.html';
+            window.location.href = next;
+            window.location.assign(next);
+            window.location.replace(next);
+              
+          });
+    </script>
 </body>
 </html>
