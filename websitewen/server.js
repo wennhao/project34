@@ -6,11 +6,15 @@ const SerialPort = require('serialport');
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
-
 const port = 3000;
 
-// Serve the index.html file
+// Serve the landing page
 app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/landing.html');
+});
+
+// Serve the balance inquiry page
+app.get('/balance-inquiry', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
