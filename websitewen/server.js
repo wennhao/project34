@@ -2,36 +2,38 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const SerialPort = require('serialport');
+const fs = require('fs');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 const port = 3000;
 
-const parsers = SerialPort.parsers;
-const { ReadlineParser} = require("@serialport/parser-readline");
-const { Socket } = require('socket.io');
-const parser = new ReadlineParser({ delimeter: "\r\n" });
-const fs = require('fs');
-//Arduino Serialport
-const portArduino = new SerialPort.SerialPort({
-    path: "COM8",
-    baudRate: 9600,
-    dataBits: 8,
-    parity: 'none',
-    stopBits: 1,
-    flowControl: false
-});
+const SERIAL_PORT_AVAILABLE = false;  // You can set this based on some condition or configuration
 
-portArduino.on('error', (err) => {
-console.error('Serial port: ', err.message);
-});
+let parser;
+if (SERIAL_PORT_AVAILABLE) {
+    const { ReadlineParser } = require("@serialport/parser-readline");
+    const parser = new ReadlineParser({ delimiter: "\r\n" });
 
-portArduino.pipe(parser);
-console.log(io.sockets.version); // will print the version number of the socket.io client
-parser.on('data', (data) =>{
-    console.log('hij werkt!');
+    const portArduino = new SerialPort({
+        path: "COM8",
+        baudRate: 9600
     });
+
+    portArduino.on('error', (err) => {
+        console.error('Serial port: ', err.message);
+    });
+
+    portArduino.pipe(parser);
+    parser.on('data', (data) => {
+        console.log('Data from Arduino:', data);
+    });
+} else {
+    console.log("Serial port is not available, running in mock mode.");
+    // Optional: Implement mock data handling or notifications
+}
+
 
 // Serve the landing page
 app.get('/', (req, res) => {
