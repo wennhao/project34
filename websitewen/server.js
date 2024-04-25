@@ -23,8 +23,8 @@ if (SERIAL_PORT_AVAILABLE) {
     const parser = new ReadlineParser({ delimiter: "\r\n" });
 
 
-    const portArduino = new SerialPort({
-        path: "COM8",
+    const portArduino = new SerialPort.SerialPort({
+        path: "COM9",
         baudRate: 9600
     });
 
