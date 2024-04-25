@@ -6,26 +6,66 @@
     <title>Bank Account Balance Inquiry</title>
 </head>
 <body>
+     <style>
+      
+        .text-overlay{
+            position: absolute;
+        }
+          #balanceResult{
+            display: flex;
+          }
+    .keypad{
+      margin-right: 20px;
+    }
+    img {
+        width: 100%;
+        height: auto;
+      }
+  </style>
+  <div class="container">
+    <div><img src="pictures/SaldoScherm.png" alt="Fullscreen Image">
     <h1>Bank Account Balance Inquiry</h1>
     <form id="balanceForm">
         <label for="bankAccount">Bank Account Number:</label>
         <input type="text" id="bankAccount" name="bankAccount" required><br><br>
-        <label for="pinCode">PIN Code:</label>
-        <input type="text" id="pinCode" name="pinCode" required><br><br>
-        <button type="submit">Check Balance</button>
     </form>
-
-    <div id="balanceResult"></div>
+    <div class="text-overlay"> 
+        Pincode:  <div id="balanceResult"></div>
+    </div>
+    </div>
+  </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
+        var socket = io();
+        socket.on('keypadData', function(data) {
+           
+            // Create a new div element for each keypad input
+            var maxdivs = 4;
+            var input = document.getElementById("balanceResult");
+            if(input.childElementCount < maxdivs){
+            newDiv = document.createElement("div");
+            newDiv.textContent = data.key1;
+
+            newDiv.classList.add("keypad");
+
+            // Append the new div to the keypadInputs div
+            block = document.getElementById("balanceResult").appendChild(newDiv);
+            }
+        });
+
+
         const form = document.getElementById('balanceForm');
         const balanceResult = document.getElementById('balanceResult');
 
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
+        socket.on('enter', async (keypadData) => {
+            var input = "";
+            var keypadelements = document.getElementsByClassName("keypad");
+            for(var i = 0; i < keypadelements.length; i++){
+              input += keypadelements[i].textContent.trim();
+            }
             const bankAccount = document.getElementById('bankAccount').value;
-            const pinCode = document.getElementById('pinCode').value;
+            const pinCode = input;
 
             const response = await fetch(`http://145.24.223.51:8001/api/balance/${bankAccount}/${pinCode}`);
             const data = await response.json();

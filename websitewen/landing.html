@@ -7,18 +7,33 @@
     <title>Welcome to Bank Balance Inquiry</title>
 </head>
 <body>
-    <h1>Hello! Welcome to Bank Balance Inquiry</h1>
-    <p>Click the button below to proceed to balance inquiry.</p>
-    <button onclick="window.location.href='/balance-inquiry'">Balance Inquiry</button>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background-color: rgb(173, 188, 159);
+    }
+    img {
+      width: 100%;
+      height: auto;
+    }
+  </style>
+  <div class="container">
+    <div><img src="pictures/StartScherm.png" alt="Fullscreen Image">
+        </div>
+        
+</div>
     <script>
         var socket = io();
-        socket.on('button1', function(data) {
-            const next = 'http://localhost:3000/src1/index.html';
+        socket.on('accepted', function(data) {
+            const next = '/Pin';
             window.location.href = next;
             window.location.assign(next);
-            window.location.replace(next);
-              
+            window.location.replace(next);    
           });
+          
     </script>
 </body>
 </html>
