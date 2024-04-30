@@ -84,6 +84,7 @@ input[type="text"], input[type="password"] {
   max-height: 70px;
   padding: 10px;
   font-size: 100%;
+  font-weight: 900;
   border: 2px solid #12372A;
   background-color : #436850; /* Light grey background */
   color: #12372A; /* Green text */

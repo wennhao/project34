@@ -16,7 +16,7 @@
             
             <h1>Voer je pincode in</h1> 
             <div class="password-input">
-              <input type="text" id="password" placeholder="" onkeydown="handleKeyPress(event)" maxlength="4" style="text-align: center;">
+              <input type="text" id="password" placeholder="****"  maxlength="4" style="text-align: center;" readonly>
           </div>
           
         </div>
@@ -26,6 +26,6 @@
     <%- include('../partials/footer'); %>
 </footer>
 <script src="/socket.io/socket.io.js"></script>
-<script src="/scripts/togglepassword.js"></script>
+<script src="/scripts/handlepin.js"></script>
 </body>
 </html>
