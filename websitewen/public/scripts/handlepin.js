@@ -1,12 +1,13 @@
 let actualInput = ""; // This will store the actual typed characters
 
 function handleInput(key) {
-  if (key === "enter" || key === "b") {
+  if (key === "B" || key === "b") { //press B to remove the last character
     actualInput = actualInput.slice(0, -1); // Remove the last character
-  } else if (key === "ZERO" || key === "c") {
+  } else if (key === "C" || key === "c") { //press C to clear the entire input
     actualInput = ""; // Clear the input
   } else if (/^[0-9]$/i.test(key) && actualInput.length < 4) {
     actualInput += key; // Add the key if it's a number and there's space
+    console.log(actualInput); //remove on stable version
   }
   updateDisplay();
 }
