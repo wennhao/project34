@@ -1,0 +1,106 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+/* Reset some basic elements */
+html, body, #root {
+  height: 100%;
+}
+
+.App { /* a class to use for general pages */
+  text-align: center;
+  background-color: #adbc9f; /* Set your custom hex code color here */
+  color: #12372A; /* Adjust text color for better visibility if needed */
+  min-height: 100vh; /* Makes the background color cover the whole page */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
+
+/* Reset margins and padding for specific elements */
+.image-left, .horizontal-bar {
+  margin: 0;
+  padding: 0;
+}
+
+.image-left {
+  position: fixed;  /* Keeps the image at the specified position regardless of scrolling */
+  top: 0;           /* Aligns the top edge of the image with the top of the viewport */
+  left: 2vw;          /* Aligns the left edge of the image with the left of the viewport */
+  width: 15%;       /* Sets the width of the image to 15% of the viewport width */
+  height: auto;     /* Maintains the aspect ratio of the image */
+}
+
+.horizontal-bar {
+  width: 100vw;
+  height: 1.64vh;
+  background-color: #436850; /* Camo green */
+  position: fixed;   /* Fixed position, directly following the image */
+  top: calc(21% * 0.7);  /* Adjust the top position to directly follow the image */
+  left: 0;
+}
+
+
+
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #ADBC9F; /* Light green background */
+  color: #333; /* Default text color */
+}
+
+/* Global container styles */
+.container {
+  max-width: 131vh;
+  margin: 10;
+  padding: 0 20svh;
+}
+
+.container img {
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  width: auto;
+}
+
+.saldoicon {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.password-input {
+  position: relative;
+  margin: 20px;
+  padding: 20px;
+}
+
+
+input[type="text"], input[type="password"] {
+  width: 32vw; /* Adjust width as necessary */
+  max-width: 400px;
+  height: 10.9vh;
+  max-height: 70px;
+  padding: 10px;
+  font-size: 100%;
+  border: 2px solid #12372A;
+  background-color : #436850; /* Light grey background */
+  color: #12372A; /* Green text */
+}
+
+button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  background-color: #436850; /* Green background */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #12372A; /* Darker green on hover */
+}

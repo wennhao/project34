@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="App">
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<main>
+    <body>
+    
+        <div class="container">
+            
+            <h1>Voer je pincode in</h1> 
+            <div class="password-input">
+              <input type="text" id="password" placeholder="" onkeydown="handleKeyPress(event)" maxlength="4" style="text-align: center;">
+          </div>
+          
+        </div>
+</main>
+
+<footer>
+    <%- include('../partials/footer'); %>
+</footer>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/scripts/togglepassword.js"></script>
+</body>
+</html>
