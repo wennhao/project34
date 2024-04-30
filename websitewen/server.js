@@ -15,7 +15,16 @@ app.use('/websitewen', (express.static('./websitewen')));
 app.use(express.static(path.join(__dirname, 'websitewen')));
 app.use('/', express.static(path.join(__dirname, 'pictures')));
 
-const SERIAL_PORT_AVAILABLE = false;  // You can set this based on some condition or configuration
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+
+// Set the view engine to ejs
+app.set('view engine', 'ejs');
+// Set the views directory
+app.set('views', path.join(__dirname, 'views'));
+
+const SERIAL_PORT_AVAILABLE = true;  // You can set this based on some condition or configuration
 
 let parser;
 if (SERIAL_PORT_AVAILABLE) {
@@ -24,7 +33,7 @@ if (SERIAL_PORT_AVAILABLE) {
 
 
     const portArduino = new SerialPort.SerialPort({
-        path: "COM9",
+        path: "/dev/cu.usbserial-230",
         baudRate: 9600
     });
 
@@ -71,12 +80,20 @@ if (SERIAL_PORT_AVAILABLE) {
 
 // Serve the landing page
 app.get('/', (req, res) => {
+    // res.render('pages/index');
     res.sendFile(__dirname + '/landing.html');
 });
 
+// about page
+app.get('/about', function(req, res) {
+    res.render('pages/about');
+  });
+
 // Serve the balance inquiry page
 app.get('/balance-inquiry', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+    res.render('pages/index', {
+        title: 'Balance Inquiry' // Automatically uses layout.ejs and passes this title
+    });
 });
 
 // Serve the Pin page
