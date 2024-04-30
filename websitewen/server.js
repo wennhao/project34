@@ -10,6 +10,7 @@ const io = socketIo(server);
 const port = 3000;
 const path = require('path');
 
+
 app.use('/pictures', (express.static('./pictures')));
 app.use('/websitewen', (express.static('./websitewen')));
 app.use(express.static(path.join(__dirname, 'websitewen')));
@@ -24,7 +25,9 @@ app.set('view engine', 'ejs');
 // Set the views directory
 app.set('views', path.join(__dirname, 'views'));
 
-const SERIAL_PORT_AVAILABLE = true;  // You can set this based on some condition or configuration
+const SERIAL_PORT_AVAILABLE = false;  // Set this to either true or false if you're using a serial port or not
+const SERIAL_PORT_PATH = '/dev/cu.usbserial-230';  // Set the path to your serial port
+
 
 let parser;
 if (SERIAL_PORT_AVAILABLE) {
@@ -33,7 +36,7 @@ if (SERIAL_PORT_AVAILABLE) {
 
 
     const portArduino = new SerialPort.SerialPort({
-        path: "/dev/cu.usbserial-230",
+        path: SERIAL_PORT_PATH,
         baudRate: 9600
     });
 
@@ -78,10 +81,40 @@ if (SERIAL_PORT_AVAILABLE) {
     // Optional: Implement mock data handling or notifications
 }
 
-// Serve the landing page
+// Serve the MAIN page
 app.get('/', (req, res) => {
     // res.render('pages/index');
-    res.sendFile(__dirname + '/landing.html');
+    res.render('pages/index', {
+        title: 'Scanscherm' // Automatically uses layout.ejs and passes this title
+    });
+});
+
+// Serve the pinscherm
+app.get('/pin', (req, res) => {
+    res.render('pages/pin', {
+        title: 'Pinscherm' // Automatically uses layout.ejs and passes this title
+    });
+});
+
+// Serve the scanscherm
+app.get('/scan', (req, res) => {
+    res.render('pages/scan', {
+        title: 'Scanscherm' // Automatically uses layout.ejs and passes this title
+    });
+});
+
+// Serve the keuzescherm
+app.get('/keuze', (req, res) => {
+    res.render('pages/keuze', {
+        title: 'Keuzescherm' // Automatically uses layout.ejs and passes this title
+    });
+});
+
+// Serve the saldoscherm
+app.get('/saldo', (req, res) => {
+    res.render('pages/saldo', {
+        title: 'Saldoscherm' // Automatically uses layout.ejs and passes this title
+    });
 });
 
 // about page
@@ -89,13 +122,8 @@ app.get('/about', function(req, res) {
     res.render('pages/about');
   });
 
-// Serve the balance inquiry page
-app.get('/balance-inquiry', (req, res) => {
-    res.render('pages/index', {
-        title: 'Balance Inquiry' // Automatically uses layout.ejs and passes this title
-    });
-});
 
+//OLD CONTENT
 // Serve the Pin page
 app.get('/Pin', (req, res) => {
     res.sendFile(__dirname + '/Pin.html');
@@ -105,6 +133,9 @@ app.get('/Pin', (req, res) => {
 app.get('/Select', (req, res) => {
     res.sendFile(__dirname + '/Select.html');
 });
+
+
+
 
 // Handle form submission and API request
 app.get('/api/balance/:bankAccount/:pinCode', async (req, res) => {
