@@ -119,9 +119,12 @@ app.get('/scan', (req, res) => {
 
 // Serve the keuzescherm
 app.get('/keuze', (req, res) => {
-    res.render('pages/keuze', {
-        title: 'Keuzescherm' // Automatically uses layout.ejs and passes this title
-    });
+    const naam = req.query.naam;
+    if (naam) {
+        res.render('pages/keuze', { naam: naam });
+    } else {
+        res.redirect('/'); // Redirect naar de hoofdpagina als geen naam is meegegeven
+    }
 });
 
 // Serve the saldoscherm

@@ -24,7 +24,12 @@ export function sendPostRequest(pinCode) {
         return response.json();
     })
     .then(data => {
-        displayResponse(data);
+        if (data && data.firstname) {
+            // Hier stuur je door naar de keuze pagina
+            window.location.href = `/keuze?naam=${encodeURIComponent(data.firstname)}`;
+        } else {
+            throw new Error('Naam niet ontvangen');
+        }
     })
     .catch((error) => {
         console.error('Error:', error);
