@@ -1,3 +1,5 @@
+import {sendPostRequest}  from './getaccountinfo.js'; // Import the sendPostRequest function from getaccountinfo.js
+
 let actualInput = ""; // This will store the actual typed characters
 
 function handleInput(key) {
@@ -5,6 +7,10 @@ function handleInput(key) {
     actualInput = actualInput.slice(0, -1); // Remove the last character
   } else if (key === "C" || key === "c") { //press C to clear the entire input
     actualInput = ""; // Clear the input
+  } else if (key === "D" || key === "D") { //press C to clear the entire input
+    if (actualInput.length === 4) { // Ensure the PIN is fully entered
+      sendPostRequest(actualInput);
+    }
   } else if (/^[0-9]$/i.test(key) && actualInput.length < 4) {
     actualInput += key; // Add the key if it's a number and there's space
     console.log(actualInput); //remove on stable version
@@ -16,6 +22,8 @@ function updateDisplay() {
   var passwordInput = document.getElementById('password');
   passwordInput.value = '*'.repeat(actualInput.length).split('').join('    ');
 }
+
+
 
 var socket = io();
 
