@@ -58,6 +58,10 @@ if (SERIAL_PORT_AVAILABLE) {
     if(data.trim() === 'button1'){
         io.emit('button1');
     }
+
+    if(data.trim() === 'button3'){
+        io.emit('button3');
+    }
     var datarrray = data.split(',');
       
     var key1 = datarrray[0];
@@ -88,6 +92,8 @@ if (SERIAL_PORT_AVAILABLE) {
             console.log('Trigger received, sending accepted event...');
             socket.emit('accepted');  // Make sure this is emitting correctly
         });
+
+    
     });
 
 } else {
@@ -119,12 +125,11 @@ app.get('/scan', (req, res) => {
 
 // Serve the keuzescherm
 app.get('/keuze', (req, res) => {
-    const naam = req.query.naam;
-    if (naam) {
-        res.render('pages/keuze', { naam: naam });
-    } else {
-        res.redirect('/'); // Redirect naar de hoofdpagina als geen naam is meegegeven
-    }
+    
+    res.render('pages/keuze', { 
+        title: 'Keuzescherm'
+    });
+
 });
 
 // Serve the saldoscherm
@@ -140,16 +145,16 @@ app.get('/about', function(req, res) {
   });
 
 
-//OLD CONTENT
-// Serve the Pin page
-app.get('/landing', (req, res) => {
-    res.sendFile(__dirname + '/landing.html');
-});
+// //OLD CONTENT
+// // Serve the Pin page
+// app.get('/landing', (req, res) => {
+//     res.sendFile(__dirname + '/landing.html');
+// });
 
-// Serve the Select page
-app.get('/Select', (req, res) => {
-    res.sendFile(__dirname + '/Select.html');
-});
+// // Serve the Select page
+// app.get('/Select', (req, res) => {
+//     res.sendFile(__dirname + '/Select.html');
+// });
 
 
 

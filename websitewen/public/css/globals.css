@@ -53,7 +53,7 @@ body {
 /* Global container styles */
 .container {
   max-width: 131vh;
-  margin: 10;
+  margin-top: 10vh;
   padding: 0 20svh;
 }
 
@@ -90,18 +90,94 @@ input[type="text"], input[type="password"] {
   color: #12372A; /* Green text */
 }
 
-button {
-  padding: 10px 20px;
-  margin-left: 10px;
+
+.flex-container {
   font-family: 'Montserrat', sans-serif;
-  font-size: 16px;
-  background-color: #436850; /* Green background */
-  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 0 50px; /* Grotere padding aan beide zijden van de container */
+  position: relative;
+}
+
+.welcome-message {
+  text-align: center;
+  flex-basis: 100vh; /* Laat de welkomstboodschap meer ruimte innemen */
+  flex-grow: 4;
+}
+
+.side-buttons {
+  display: flex;
+  width: 30vw;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1; /* Stelt de groei van de knoppencontainers in */
+  
+}
+
+.left-buttons {
+  align-items: flex-start;
+}
+
+.right-buttons {
+  align-items: flex-end;
+}
+
+.choice-button {
+  padding: 10px 20px;
+  margin: 5vh;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3.89vh;
+  font-weight: 900;
+  min-width: 27vw;
+  min-height: 10vh;
+  max-width: 30vw;
+  max-height: 20vh;
+  background-color: #ADBC9F; /* Green background */
+  color: #12372A;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  position: relative;
+}
+.left-buttons .choice-button {
+  text-align: left;
 }
 
-button:hover {
-  background-color: #12372A; /* Darker green on hover */
+.right-buttons .choice-button {
+  text-align: right;
+}
+
+.left-buttons .choice-button::after {
+  z-index: -1;
+  position: fixed;
+  /* Change "right: 0" to "left: 0" for left side line */
+  left: 0;
+  content: '';
+  margin-right: 50%;
+  margin-top: 1%;
+  width: 15%;
+  
+  border-bottom: 1.5vh solid #436850;
+}
+
+.right-buttons .choice-button::after {
+  z-index: -1;
+  position: fixed;
+  /* Change "right: 0" to "left: 0" for left side line */
+  right: 0;
+  content: '';
+  margin-left: 50%;
+  margin-top: 1%;
+  width: 15%;
+  border-bottom: 1.5vh solid #436850;
+}
+
+.choice-button:hover {
+  background-color: white; /* Darker green on hover */
+}
+
+.choice-button.hide-button {
+  visibility: hidden;
 }
