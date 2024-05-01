@@ -25,9 +25,9 @@ app.set('view engine', 'ejs');
 // Set the views directory
 app.set('views', path.join(__dirname, 'views'));
 
-const SERIAL_PORT_AVAILABLE = false;  // Set this to either true or false if you're using a serial port or not
-const SERIAL_PORT_PATH = '/dev/cu.usbserial-230';  // Set the path to your serial port
-
+const SERIAL_PORT_AVAILABLE = true;  // Set this to either true or false if you're using a serial port or not
+const SERIAL_PORT_PATH_MAC = '/dev/cu.usbserial-230';  // Set the path to your serial port
+const SERIAL_PORT_PATH_WINDOWS = 'COM3';  // Set the path to your serial port on Windows
 
 let parser;
 if (SERIAL_PORT_AVAILABLE) {
@@ -36,7 +36,7 @@ if (SERIAL_PORT_AVAILABLE) {
 
 
     const portArduino = new SerialPort.SerialPort({
-        path: SERIAL_PORT_PATH,
+        path: SERIAL_PORT_PATH_WINDOWS,
         baudRate: 9600
     });
 
@@ -47,11 +47,20 @@ if (SERIAL_PORT_AVAILABLE) {
     portArduino.pipe(parser);
     console.log(io.sockets.version); // will print the version number of the socket.io client
     parser.on('data', (data) =>{
+    
+    console.log('Data:', data);
+
+    io.emit('keypadData', {key: data.trim() });
+
     if(data.trim() === 'accepted'){
         io.emit('accepted');
     }
     if(data.trim() === 'button1'){
         io.emit('button1');
+    }
+
+    if(data.trim() === 'button3'){
+        io.emit('button3');
     }
     var datarrray = data.split(',');
       
@@ -76,6 +85,17 @@ if (SERIAL_PORT_AVAILABLE) {
     const jsonData = fs.readFileSync(path.join(__dirname, 'data.json'));
     const data1 = JSON.parse(jsonData);
     console.log(data1);
+
+    io.on('connection', (socket) => {
+        // Example trigger for 'accepted' event
+        socket.on('someTrigger', () => {
+            console.log('Trigger received, sending accepted event...');
+            socket.emit('accepted');  // Make sure this is emitting correctly
+        });
+
+    
+    });
+
 } else {
     console.log("Serial port is not available, running in mock mode.");
     // Optional: Implement mock data handling or notifications
@@ -105,9 +125,11 @@ app.get('/scan', (req, res) => {
 
 // Serve the keuzescherm
 app.get('/keuze', (req, res) => {
-    res.render('pages/keuze', {
-        title: 'Keuzescherm' // Automatically uses layout.ejs and passes this title
+    
+    res.render('pages/keuze', { 
+        title: 'Keuzescherm'
     });
+
 });
 
 // Serve the saldoscherm
@@ -123,16 +145,16 @@ app.get('/about', function(req, res) {
   });
 
 
-//OLD CONTENT
-// Serve the Pin page
-app.get('/Pin', (req, res) => {
-    res.sendFile(__dirname + '/Pin.html');
-});
+// //OLD CONTENT
+// // Serve the Pin page
+// app.get('/landing', (req, res) => {
+//     res.sendFile(__dirname + '/landing.html');
+// });
 
-// Serve the Select page
-app.get('/Select', (req, res) => {
-    res.sendFile(__dirname + '/Select.html');
-});
+// // Serve the Select page
+// app.get('/Select', (req, res) => {
+//     res.sendFile(__dirname + '/Select.html');
+// });
 
 
 

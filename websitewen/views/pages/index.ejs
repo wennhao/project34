@@ -14,8 +14,9 @@
     
         <div class="container">
             
-            <h1>homescherm</h1>
-            
+            <h1>WELKOM bij WING</h1>
+            <button class="startButton">Start de GUI!</button>
+
         </div>
 </main>
 
@@ -23,5 +24,13 @@
     <%- include('../partials/footer'); %>
 </footer>
 <script src="/socket.io/socket.io.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      var startButton = document.querySelector('.startButton');
+      startButton.addEventListener('click', function() {
+          window.location.href = '/scan'; // Redirect to the '/scan' route
+      });
+  });
+</script>
 </body>
 </html>

@@ -14,8 +14,9 @@
     
         <div class="container">
             
-            <h1>SCANSCHERM</h1>
+            <h1>Scan uw pas</h1>
             <img src="/scanicon.png" alt="Logo Wing">
+        
         </div>
 </main>
 
@@ -23,5 +24,16 @@
     <%- include('../partials/footer'); %>
 </footer>
 <script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io();
+    socket.on('connect', function() {
+        console.log('Connected to WebSocket server!');
+    });
+
+    socket.on('accepted', function() {
+        console.log('Accepted event received, redirecting...');
+        window.location.replace('/pin');
+    });
+</script>
 </body>
 </html>
