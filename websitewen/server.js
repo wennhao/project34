@@ -52,30 +52,37 @@ if (SERIAL_PORT_AVAILABLE) {
 
     io.emit('keypadData', {key: data.trim() });
 
-    if(data.trim() === 'accepted'){
-        io.emit('accepted');
-    }
     if(data.trim() === 'button1'){
         io.emit('button1');
+    }
+
+    if(data.trim() === 'button2'){
+        io.emit('button2');
     }
 
     if(data.trim() === 'button3'){
         io.emit('button3');
     }
+
+    if(data.trim() === 'button4'){
+        io.emit('button4');
+    }
+
+    if(data.trim() === 'button5'){
+        io.emit('button5');
+    }
+
+    if(data.trim() === 'button6'){
+        io.emit('button6');
+    }
     var datarrray = data.split(',');
-      
+
     var key1 = datarrray[0];
     var key2 = datarrray[1];
 
       //io.emit('data', data);
-      io.emit('keypadData', {key1: key1, key2: key2});
+    io.emit('keypadData', {key1: key1, key2: key2});
 
-      if(data.trim() === 'ZERO'){
-        io.emit('erase');
-      }
-      if(data.trim() === 'enter'){
-        io.emit('enter');    
-  }
     });
 
     //temporary JSON
@@ -136,6 +143,20 @@ app.get('/keuze', (req, res) => {
 app.get('/saldo', (req, res) => {
     res.render('pages/saldo', {
         title: 'Saldoscherm' // Automatically uses layout.ejs and passes this title
+    });
+});
+
+// Serve the opnemenscherm
+app.get('/opnemen', (req, res) => {
+    res.render('pages/opnemen', {
+        title: 'Opnemenscherm1' // Automatically uses layout.ejs and passes this title
+    });
+});
+
+// Serve the snelopnemenscherm
+app.get('/snelopnemen', (req, res) => {
+    res.render('pages/snelopnemen', {
+        title: 'snelopnemen' // Automatically uses layout.ejs and passes this title
     });
 });
 
