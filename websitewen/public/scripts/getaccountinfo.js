@@ -2,7 +2,7 @@
 let iban = "NL03ABNA0303030303";  // Replace with actual IBAN if needed
 let uid = "3";                    // Replace with actual UID if needed
 
-export function sendPostRequest(pinCode) {
+export function sendPostRequest(pinCode, callback) {
     const apiUrl = 'http://145.24.223.51:8001/api/accountinfo';
     const data = {
         iban: iban,
@@ -24,21 +24,17 @@ export function sendPostRequest(pinCode) {
         return response.json();
     })
     .then(data => {
-        if (data && data.firstname) {
+        if (data && data.success) {
             localStorage.setItem('balance', data.balance);
             localStorage.setItem('name', data.firstname);
-            // Hier stuur je door naar de keuze pagina
-            window.location.href = `/keuze`;
+            callback(true, data);
         } else {
-            throw new Error('Naam niet ontvangen');
+            callback(false, data);
         }
     })
     .catch((error) => {
         console.error('Error:', error);
-        alert('Failed to fetch data: ' + error.message); // Display error message
+        callback(false, { message: 'Failed to fetch data: ' + error.message }); // Callback indicating failure with error message
+        //alert('Failed to fetch data: ' + error.message); // Display error message
     });
-}
-
-function displayResponse(apiResponse) {
-    alert(`Hello ${apiResponse.firstname} ${apiResponse.lastname}, your balance is: €${apiResponse.balance}`);
 }
