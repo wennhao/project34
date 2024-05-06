@@ -1,6 +1,6 @@
 // Assuming the IBAN and UID are constant or predefined
-let iban = "NL04ABNA0404040404";  // Replace with actual IBAN if needed
-let uid = "4";                    // Replace with actual UID if needed
+let iban = "NL03ABNA0303030303";  // Replace with actual IBAN if needed
+let uid = "3";                    // Replace with actual UID if needed
 
 export function sendPostRequest(pinCode) {
     const apiUrl = 'http://145.24.223.51:8001/api/accountinfo';
