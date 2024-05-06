@@ -203,10 +203,3 @@ input[type="text"], input[type="password"] {
 .startButton:hover {
   background-color: white; /* Darker green on hover */
 }
-
-.errorPin {
-  color: #12372A;
-  font-size: 5vh;
-  font-weight: 900;
-  margin-top: 2vh;
-}
