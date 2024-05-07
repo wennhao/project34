@@ -26,11 +26,7 @@ socket.on('button2', function() {
     if (window.location.pathname.includes('/keuze')) {
         // Als de gebruiker zich op de saldo pagina bevindt
         console.log('Redirecting to snelopnemen screen...');
-        window.location.replace('/snelopnemen');
-    } else if (window.location.pathname.includes('/snelopnemen')) {
-        // Als de gebruiker zich op de keuze pagina bevindt
-        console.log('Redirecting to keuze screen...');
-        window.location.replace('/keuze');
+        window.location.replace('/success');
     } else if (window.location.pathname.includes('/saldo')) {
         // Als de gebruiker zich op de saldo pagina bevindt
         console.log('Redirecting to keuze screen...');
