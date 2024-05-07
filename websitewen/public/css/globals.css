@@ -26,7 +26,7 @@ html, body, #root {
 
 .image-left {
   position: fixed;  /* Keeps the image at the specified position regardless of scrolling */
-  top: 0;           /* Aligns the top edge of the image with the top of the viewport */
+  top: 2vh;           /* Aligns the top edge of the image with the top of the viewport */
   left: 2vw;          /* Aligns the left edge of the image with the left of the viewport */
   width: 15%;       /* Sets the width of the image to 15% of the viewport width */
   height: auto;     /* Maintains the aspect ratio of the image */
@@ -70,25 +70,51 @@ body {
   left: 10px;
 }
 
-.password-input {
+.password-box {
   position: relative;
   margin: 20px;
   padding: 20px;
 }
 
+.amount-box {
+  position: relative;
+  margin: 20px;
+  padding: 20px;
+}
 
-input[type="text"], input[type="password"] {
+.amount-input {
+  width: 32vw; /* Example width */
+  max-width: 400px;
+  height: 10.9vh;
+  max-height: 70px;
+  padding: 10px;
+  font-size: 200%;
+  font-weight: 900;
+  border: 3px solid #12372A;
+  background-color: #436850; 
+  color: #FBFADA; 
+  text-shadow: -1px -1px 0 #12372A, 1px -1px 0 #12372A, -1px 1px 0 #12372A, 1px 1px 0 #12372A;
+}
+
+.amount-input::placeholder {
+  color: #FBFADA; 
+  text-shadow: -1px -1px 0 #12372A, 1px -1px 0 #12372A, -1px 1px 0 #12372A, 1px 1px 0 #12372A;
+}
+
+.password-input {
   width: 32vw; /* Adjust width as necessary */
   max-width: 400px;
   height: 10.9vh;
   max-height: 70px;
   padding: 10px;
-  font-size: 100%;
+  font-size: 150%;
   font-weight: 900;
   border: 2px solid #12372A;
   background-color : #436850; /* Light grey background */
-  color: #12372A; /* Green text */
+  color: #FBFADA; /* Green text */
+  text-shadow: -1px -1px 0 #12372A, 1px -1px 0 #12372A, -1px 1px 0 #12372A, 1px 1px 0 #12372A; /* Dark green text outline */
 }
+
 
 
 .flex-container {
@@ -193,15 +219,16 @@ input[type="text"], input[type="password"] {
   max-width: 30vw;
   max-height: 20vh;
   background-color: #436850; /* Green background */
-  color: #12372A;
-  border: none;
-  border-radius: 4px;
+  color: #FBFADA; /* Green text */
+  text-shadow: -1px -1px 0 #12372A, 1px -1px 0 #12372A, -1px 1px 0 #12372A, 1px 1px 0 #12372A; /* Dark green text outline */
+  border: 4px solid #12372A;
+  border-radius: 8px;
   cursor: pointer;
   position: relative;
 }
 
 .startButton:hover {
-  background-color: white; /* Darker green on hover */
+  background-color: #12372A; /* Darker green on hover */
 }
 
 .errorPin {
@@ -210,3 +237,21 @@ input[type="text"], input[type="password"] {
   font-weight: 900;
   margin-top: 2vh;
 }
+
+#progressBarContainer {
+  position: fixed;  
+  bottom: 0;        
+  left: 0;         
+  width: 100%;     
+  background-color: #12372A;
+  padding: 3px;
+  border-top: 1px solid #436850;
+}
+
+#progressBar {
+  height: 20px;
+  background-color: #436850;
+  width: 100%;    
+  transition: width 1s linear;
+}
+

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="App">
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<main>
+    <body>
+        <div class="flex-container">
+            <div class="side-buttons left-buttons">
+                <button class="choice-button">Informatie?</button>
+                <button class="choice-button hide-button">empty</button>
+                <button class="choice-button">Terug</button>
+            </div>
+            
+            <div class="center-container">
+                <h1>Voer uw gewenste bedrag in</h1> 
+                <div class="amount-box">
+                <input type="text" id="text" placeholder="€"  maxlength="3" class="amount-input" style="text-align: center;" readonly>
+                <div id="balance"> </div>
+                </div>
+                
+            </div>
+            
+            <div class="side-buttons right-buttons">
+                <button class="choice-button hide-button">empty</button> 
+                <button class="choice-button hide-button">empty</button>
+                <button class="choice-button">Afbreken</button>
+            </div>    
+        </div>
+</main>
+
+<footer>
+    <%- include('../partials/footer'); %>
+</footer>
+<script type="module" src="/socket.io/socket.io.js"></script>
+<script type="module" src="/scripts/handlebedrag.js"></script>
+<script type="module" src="/scripts/handlebutton.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="App">
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<main>
+    <body>
+    
+        <div class="container">
+            
+            <h1>Bedankt dat je koos voor WING</h1>
+            <p>U wordt binnen <span id="countdown">5</span> seconden automatisch doorgestuurd...</p>
+            <div id="progressBarContainer">
+              <div id="progressBar"></div>
+            </div>
+
+        </div>
+</main>
+
+<footer>
+    <%- include('../partials/footer'); %>
+</footer>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/scripts/redirect.js"></script>
+</body>
+</html>

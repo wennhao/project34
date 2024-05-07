@@ -149,7 +149,14 @@ app.get('/saldo', (req, res) => {
 // Serve the opnemenscherm
 app.get('/opnemen', (req, res) => {
     res.render('pages/opnemen', {
-        title: 'Opnemenscherm1' // Automatically uses layout.ejs and passes this title
+        title: 'Opnemenscherm' // Automatically uses layout.ejs and passes this title
+    });
+});
+
+// Serve the snelopnemenscherm
+app.get('/opnemenbedrag', (req, res) => {
+    res.render('pages/opnemenbedrag', {
+        title: 'Opnemenbedragscherm' // Automatically uses layout.ejs and passes this title
     });
 });
 
@@ -157,6 +164,20 @@ app.get('/opnemen', (req, res) => {
 app.get('/snelopnemen', (req, res) => {
     res.render('pages/snelopnemen', {
         title: 'snelopnemen' // Automatically uses layout.ejs and passes this title
+    });
+});
+
+// Serve the snelopnemenscherm
+app.get('/bon', (req, res) => {
+    res.render('pages/bon', {
+        title: 'Bonscherm' // Automatically uses layout.ejs and passes this title
+    });
+});
+
+// Serve the snelopnemenscherm
+app.get('/success', (req, res) => {
+    res.render('pages/success', {
+        title: 'Successscherm' // Automatically uses layout.ejs and passes this title
     });
 });
 
