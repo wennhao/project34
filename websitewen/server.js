@@ -174,6 +174,13 @@ app.get('/bon', (req, res) => {
     });
 });
 
+// Serve the snelopnemenscherm
+app.get('/success', (req, res) => {
+    res.render('pages/success', {
+        title: 'Successscherm' // Automatically uses layout.ejs and passes this title
+    });
+});
+
 // about page
 app.get('/about', function(req, res) {
     res.render('pages/about');

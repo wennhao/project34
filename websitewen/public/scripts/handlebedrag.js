@@ -15,7 +15,7 @@ function handleInput(key) {
     } else if (key === "C" || key === "c") {
         actualInput = ""; // Clear the entire input
     } else if (key === "D" || key === "d") {
-        if (actualInput.length === 3 || balance >= actualInput) {
+        if (actualInput.length >= 2 ) {
             console.log("Balance withdrewn successfull:", balance, actualInput);
             window.location.href = '/bon'; // Redirect on success
         }

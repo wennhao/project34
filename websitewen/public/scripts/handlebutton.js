@@ -67,7 +67,7 @@ socket.on('button3', function() {
     } else if (window.location.pathname.includes('/bon')) {
         // Als de gebruiker zich op de keuze pagina bevindt
         console.log('Redirecting to keuze screen...');
-        window.location.replace('/keuze');
+        window.location.replace('/success');
     } else {
         // Default actie als geen van bovenstaande van toepassing is
         console.log('Redirecting to home...');
@@ -88,7 +88,7 @@ socket.on('button4', function() {
     } else if (window.location.pathname.includes('/bon')) {
         // Als de gebruiker zich op de keuze pagina bevindt
         console.log('Redirecting to keuze screen...');
-        window.location.replace('/keuze');
+        window.location.replace('/success');
     } else {
         // Default actie als geen van bovenstaande van toepassing is
         console.log('Redirecting to home...');

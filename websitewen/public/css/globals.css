@@ -236,3 +236,21 @@ body {
   font-weight: 900;
   margin-top: 2vh;
 }
+
+#progressBarContainer {
+  position: fixed;  
+  bottom: 0;        
+  left: 0;         
+  width: 100%;     
+  background-color: #12372A;
+  padding: 3px;
+  border-top: 1px solid #436850;
+}
+
+#progressBar {
+  height: 20px;
+  background-color: #436850;
+  width: 100%;    
+  transition: width 1s linear;
+}
+
