@@ -149,7 +149,14 @@ app.get('/saldo', (req, res) => {
 // Serve the opnemenscherm
 app.get('/opnemen', (req, res) => {
     res.render('pages/opnemen', {
-        title: 'Opnemenscherm1' // Automatically uses layout.ejs and passes this title
+        title: 'Opnemenscherm' // Automatically uses layout.ejs and passes this title
+    });
+});
+
+// Serve the snelopnemenscherm
+app.get('/opnemenbedrag', (req, res) => {
+    res.render('pages/opnemenbedrag', {
+        title: 'Opnemenbedragscherm' // Automatically uses layout.ejs and passes this title
     });
 });
 

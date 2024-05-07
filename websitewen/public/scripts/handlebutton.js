@@ -72,7 +72,7 @@ socket.on('button4', function() {
     if (window.location.pathname.includes('/opnemen')) {
         // Als de gebruiker zich op de saldo pagina bevindt
         console.log('Redirecting to saldo screen...');
-        window.location.replace('/keuze');
+        window.location.replace('/opnemenbedrag');
     } else if (window.location.pathname.includes('/saldo')) {
         // Als de gebruiker zich op de saldo pagina bevindt
         console.log('Redirecting to keuze screen...');

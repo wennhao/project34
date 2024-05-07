@@ -76,6 +76,11 @@ body {
   padding: 20px;
 }
 
+.amount-input {
+  position: relative;
+  margin: 20px;
+  padding: 20px;
+}
 
 input[type="text"], input[type="password"] {
   width: 32vw; /* Adjust width as necessary */

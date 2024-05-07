@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="App">
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<main>
+    <body>
+    
+        <div class="container">
+            
+            <h1>Voer uw gewenste bedrag in</h1> 
+            <div class="amount-input">
+              <input type="text" id="password" placeholder="€"  maxlength="3" style="text-align: center;" readonly>
+              
+          </div>
+          
+        </div>
+</main>
+
+<footer>
+    <%- include('../partials/footer'); %>
+</footer>
+<script type="module" src="/socket.io/socket.io.js"></script>
+<script type="module" src="/scripts/handlepin.js"></script>
+</body>
+</html>
