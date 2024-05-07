@@ -219,15 +219,16 @@ body {
   max-width: 30vw;
   max-height: 20vh;
   background-color: #436850; /* Green background */
-  color: #12372A;
-  border: none;
-  border-radius: 4px;
+  color: #FBFADA; /* Green text */
+  text-shadow: -1px -1px 0 #12372A, 1px -1px 0 #12372A, -1px 1px 0 #12372A, 1px 1px 0 #12372A; /* Dark green text outline */
+  border: 4px solid #12372A;
+  border-radius: 8px;
   cursor: pointer;
   position: relative;
 }
 
 .startButton:hover {
-  background-color: white; /* Darker green on hover */
+  background-color: #12372A; /* Darker green on hover */
 }
 
 .errorPin {
