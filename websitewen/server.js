@@ -167,6 +167,13 @@ app.get('/snelopnemen', (req, res) => {
     });
 });
 
+// Serve the snelopnemenscherm
+app.get('/bon', (req, res) => {
+    res.render('pages/bon', {
+        title: 'Bonscherm' // Automatically uses layout.ejs and passes this title
+    });
+});
+
 // about page
 app.get('/about', function(req, res) {
     res.render('pages/about');

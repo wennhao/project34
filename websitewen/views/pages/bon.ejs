@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="App">
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<main>
+    <body>
+        <div class="flex-container">
+            <div class="side-buttons left-buttons">
+                <button class="choice-button hide-button">€20</button>
+                <button class="choice-button hide-button">€50</button>
+                <button class="choice-button">Nee</button>
+            </div>
+            
+            <div class="center-container">
+                <h2>Wilt u een bon?</h2>
+                
+            </div>
+            
+            <div class="side-buttons right-buttons">
+                <button class="choice-button hide-button">€100</button> 
+                <button class="choice-button hide-button">Aangepaste Bedrag</button>
+                <button class="choice-button">Ja</button>
+            </div>
+</main>
+
+<footer>
+    <%- include('../partials/footer'); %>
+</footer>
+<script src="/socket.io/socket.io.js"></script>
+<script type="module" src="/scripts/handlebutton.js"></script>
+</body>
+</html>
