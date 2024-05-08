@@ -31,5 +31,5 @@ var socket = io();
             const response = await fetch(`http://145.24.223.51:8001/api/balance/${bankAccount}/${pinCode}`);
             const data = await response.json();
 
-            balanceResult.innerText = `Balance: ${data.balance}`;
+            balanceResult.innerText = `Balance: ${data.saldo}`;
         });

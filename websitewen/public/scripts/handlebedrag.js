@@ -1,10 +1,10 @@
 let actualInput = ""; // This will store the actual typed characters
-const balance = localStorage.getItem('balance');
+const saldo = localStorage.getItem('saldo');
 
-if (balance) {
+if (saldo) {
     const messageDisplay = document.getElementById('balance');
     let balanceDiv = document.createElement('div');
-            balanceDiv.textContent = 'saldo: €' + balance;
+            balanceDiv.textContent = 'saldo: €' + saldo;
             messageDisplay.appendChild(balanceDiv);
 }
 
@@ -16,7 +16,7 @@ function handleInput(key) {
         actualInput = ""; // Clear the entire input
     } else if (key === "D" || key === "d") {
         if (actualInput.length >= 2 ) {
-            console.log("Balance withdrewn successfull:", balance, actualInput);
+            console.log("Balance withdrewn successfull:", saldo, actualInput);
             window.location.href = '/bon'; // Redirect on success
         }
     } else if (/^[0-9]$/i.test(key) && actualInput.length < 3) {

@@ -25,7 +25,7 @@ export function sendPostRequest(pinCode, callback) {
     })
     .then(data => {
         if (data && data.success) {
-            localStorage.setItem('balance', data.balance);
+            localStorage.setItem('saldo', data.saldo);
             localStorage.setItem('name', data.firstname);
             callback(true, data);
         } else {

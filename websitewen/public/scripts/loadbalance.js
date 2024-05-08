@@ -1,8 +1,8 @@
 window.onload = function() {
-    const balance = localStorage.getItem('balance');
-    if (balance) {
+    const saldo = localStorage.getItem('saldo');
+    if (saldo) {
         document.getElementById('balanceDisplay').innerHTML = 
-            `Uw saldo is: <br> €${balance}`;
+            `Uw saldo is: <br> €${saldo}`;
     } else {
         document.getElementById('balanceDisplay').innerHTML = 
             "Geen balansinformatie beschikbaar.";
