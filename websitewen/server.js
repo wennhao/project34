@@ -18,7 +18,8 @@ app.use('/', express.static(path.join(__dirname, 'pictures')));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+let iban = ''; // Variabele om IBAN op te slaan
+let uid = '';  // Variabele om UID op te slaan
 
 // Set the view engine to ejs
 app.set('view engine', 'ejs');
@@ -46,9 +47,16 @@ if (SERIAL_PORT_AVAILABLE) {
 
     portArduino.pipe(parser);
     console.log(io.sockets.version); // will print the version number of the socket.io client
+    
     parser.on('data', (data) =>{
     
     console.log('Data:', data);
+
+    // Split data into IBAN and UID
+    iban = data.substring(0, 18); // Eerste 18 karakters als IBAN
+    uid = data.substring(18);     // Overige karakters als UID
+
+    io.emit('serialData', { iban, uid }); // Verzend de seriële data naar de client via Socket.IO
 
     io.emit('keypadData', {key: data.trim() });
 
@@ -83,24 +91,6 @@ if (SERIAL_PORT_AVAILABLE) {
       //io.emit('data', data);
     io.emit('keypadData', {key1: key1, key2: key2});
 
-    });
-
-    //temporary JSON
-    app.get('/data', (req, res) => {
-        res.json(data1);
-      })
-    const jsonData = fs.readFileSync(path.join(__dirname, 'data.json'));
-    const data1 = JSON.parse(jsonData);
-    console.log(data1);
-
-    io.on('connection', (socket) => {
-        // Example trigger for 'accepted' event
-        socket.on('someTrigger', () => {
-            console.log('Trigger received, sending accepted event...');
-            socket.emit('accepted');  // Make sure this is emitting correctly
-        });
-
-    
     });
 
 } else {
@@ -198,28 +188,6 @@ app.get('/about', function(req, res) {
 //     res.sendFile(__dirname + '/Select.html');
 // });
 
-
-
-
-// Handle form submission and API request
-app.get('/api/balance/:bankAccount/:pinCode', async (req, res) => {
-    const { bankAccount, pinCode } = req.params;
-
-    try {
-        const response = await fetch(`http://145.24.223.51:8001/api/balance/${bankAccount}/${pinCode}`);
-        const data = await response.json();
-
-        if (response.ok) {
-           res.json(data);
-        } else {
-            // Handle incorrect pin code or bank account number
-            res.status(400).json({ error: 'Incorrect pin code or bank account number.' });
-        }
-    } catch (error) {
-        console.error('Error:', error.message);
-        res.status(500).json({ error: 'An error occurred while fetching balance.' });
-    }
-});
 
 // Start the server
 server.listen(port, () => {
