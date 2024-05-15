@@ -85,13 +85,6 @@ if (SERIAL_PORT_AVAILABLE) {
 
     });
 
-    //temporary JSON
-    app.get('/data', (req, res) => {
-        res.json(data1);
-      })
-    const jsonData = fs.readFileSync(path.join(__dirname, 'data.json'));
-    const data1 = JSON.parse(jsonData);
-    console.log(data1);
 
     io.on('connection', (socket) => {
         // Example trigger for 'accepted' event
@@ -187,39 +180,7 @@ app.get('/about', function(req, res) {
   });
 
 
-// //OLD CONTENT
-// // Serve the Pin page
-// app.get('/landing', (req, res) => {
-//     res.sendFile(__dirname + '/landing.html');
-// });
 
-// // Serve the Select page
-// app.get('/Select', (req, res) => {
-//     res.sendFile(__dirname + '/Select.html');
-// });
-
-
-
-
-// Handle form submission and API request
-app.get('/api/balance/:bankAccount/:pinCode', async (req, res) => {
-    const { bankAccount, pinCode } = req.params;
-
-    try {
-        const response = await fetch(`http://145.24.223.51:8001/api/balance/${bankAccount}/${pinCode}`);
-        const data = await response.json();
-
-        if (response.ok) {
-           res.json(data);
-        } else {
-            // Handle incorrect pin code or bank account number
-            res.status(400).json({ error: 'Incorrect pin code or bank account number.' });
-        }
-    } catch (error) {
-        console.error('Error:', error.message);
-        res.status(500).json({ error: 'An error occurred while fetching balance.' });
-    }
-});
 
 // Start the server
 server.listen(port, () => {

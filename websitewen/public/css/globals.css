@@ -28,6 +28,7 @@ html, body, #root {
   position: fixed;  /* Keeps the image at the specified position regardless of scrolling */
   top: 2vh;           /* Aligns the top edge of the image with the top of the viewport */
   left: 2vw;          /* Aligns the left edge of the image with the left of the viewport */
+  margin-bottom: 2vh;
   width: 15%;       /* Sets the width of the image to 15% of the viewport width */
   height: auto;     /* Maintains the aspect ratio of the image */
 }
@@ -37,7 +38,7 @@ html, body, #root {
   height: 1.64vh;
   background-color: #436850; /* Camo green */
   position: fixed;   /* Fixed position, directly following the image */
-  top: calc(21% * 0.7);  /* Adjust the top position to directly follow the image */
+  top: calc(21% * 0.9);  /* Adjust the top position to directly follow the image */
   left: 0;
 }
 
