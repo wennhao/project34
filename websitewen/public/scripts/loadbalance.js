@@ -1,5 +1,5 @@
 window.onload = function() {
-    const saldo = localStorage.getItem('saldo');
+    const saldo = sessionStorage.getItem('saldo');
     if (saldo) {
         document.getElementById('balanceDisplay').innerHTML = 
             `Uw saldo is: <br> €${saldo}`;
