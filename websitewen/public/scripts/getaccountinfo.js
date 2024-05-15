@@ -1,5 +1,5 @@
 // Assuming the IBAN and UID are constant or predefined
-let iban = "NL03ABNA0303030303";  // Replace with actual IBAN if needed
+let iban = "IM03WINB0123456789";  // Replace with actual IBAN if needed
 let uid = "3";                    // Replace with actual UID if needed
 
 export function sendPostRequest(pinCode, callback) {
