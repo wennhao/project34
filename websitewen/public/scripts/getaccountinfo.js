@@ -2,7 +2,7 @@
 let iban = "IM03WINB0123456789";  // Replace with actual IBAN if needed
 let uid = "3";                    // Replace with actual UID if needed
 
-export function sendPostRequest(pinCode, callback) {
+export function getAccountInfo(pinCode, callback) {
     const apiUrl = 'http://145.24.223.51:8001/api/accountinfo';
     const data = {
         iban: iban,
@@ -25,8 +25,8 @@ export function sendPostRequest(pinCode, callback) {
     })
     .then(data => {
         if (data && data.success) {
-            localStorage.setItem('saldo', data.saldo);
-            localStorage.setItem('name', data.firstname);
+            sessionStorage.setItem('saldo', data.saldo);
+            sessionStorage.setItem('name', data.firstname);
             callback(true, data);
         } else {
             callback(false, data);

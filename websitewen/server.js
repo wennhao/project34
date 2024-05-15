@@ -37,7 +37,7 @@ if (SERIAL_PORT_AVAILABLE) {
 
 
     const portArduino = new SerialPort.SerialPort({
-        path: SERIAL_PORT_PATH_RASPBERRYPI,
+        path: SERIAL_PORT_PATH_MAC,
         baudRate: 9600
     });
 
