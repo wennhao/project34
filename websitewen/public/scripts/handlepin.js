@@ -1,5 +1,5 @@
-// Import the sendPostRequest function from getaccountinfo.js
-import { sendPostRequest } from './getaccountinfo.js';
+// Import the getAccountInfo function from getaccountinfo.js
+import { getAccountInfo } from './getaccountinfo.js';
 
 let actualInput = ""; // This will store the actual typed characters
 let remainingAttempts = 3; // Maximum attempts allowed
@@ -11,6 +11,7 @@ function responseHandler(success, data) {
 
     if (success) {
         console.log("Login Successful:", data);
+        sessionStorage.setItem('pincode', actualInput);
         window.location.href = '/keuze'; // Redirect on success
         remainingAttempts = 3; // Reset attempts on successful login
     } else {
@@ -46,7 +47,7 @@ function handleInput(key) {
         actualInput = ""; // Clear the entire input
     } else if (key === "D" || key === "d") {
         if (actualInput.length === 4 && remainingAttempts > 0) {
-            sendPostRequest(actualInput, responseHandler);
+            getAccountInfo(actualInput, responseHandler);
         }
     } else if (/^[0-9]$/i.test(key) && actualInput.length < 4) {
         actualInput += key; // Add the key if it's a number and there's space

@@ -1,11 +1,16 @@
+// Import the getAccountInfo function from getaccountinfo.js
+import { withdraw } from './withdraw.js';
+
+
 let actualInput = ""; // This will store the actual typed characters
-const saldo = localStorage.getItem('saldo');
+const saldo = sessionStorage.getItem('saldo');
+const storedPincode = sessionStorage.getItem('pincode'); // Retrieve the stored pincode
 
 if (saldo) {
     const messageDisplay = document.getElementById('balance');
     let balanceDiv = document.createElement('div');
-            balanceDiv.textContent = 'saldo: €' + saldo;
-            messageDisplay.appendChild(balanceDiv);
+    balanceDiv.textContent = 'saldo: €' + saldo;
+    messageDisplay.appendChild(balanceDiv);
 }
 
 function handleInput(key) {
@@ -15,9 +20,18 @@ function handleInput(key) {
     } else if (key === "C" || key === "c") {
         actualInput = ""; // Clear the entire input
     } else if (key === "D" || key === "d") {
-        if (actualInput.length >= 2 ) {
-            console.log("Balance withdrewn successfull:", saldo, actualInput);
-            window.location.href = '/bon'; // Redirect on success
+        if (actualInput.length >= 2) {
+            const amount = parseFloat(actualInput);
+            // Call the withdraw function
+            withdraw(storedPincode, amount, (success, data) => {
+                if (success) {
+                    console.log("Balance withdrawn successfully:", data.newBalance);
+                    localStorage.setItem('saldo', data.newBalance); // Update the new balance in localStorage
+                    window.location.href = '/bon'; // Redirect on success
+                } else {
+                    alert(`Error: ${data.message}`);
+                }
+            });
         }
     } else if (/^[0-9]$/i.test(key) && actualInput.length < 3) {
         actualInput += key; // Add the key if it's a number and there's space
