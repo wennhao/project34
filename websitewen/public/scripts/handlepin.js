@@ -4,8 +4,6 @@ import { getAccountInfo } from './getaccountinfo.js';
 let actualInput = ""; // This will store the actual typed characters
 let remainingAttempts = 3; // Maximum attempts allowed
 
-let uid = "DUMMY003"; // Replace with actual UID if needed
-
 // Function to block card
 async function blockCard(uid) {
     try {
@@ -29,7 +27,7 @@ async function blockCard(uid) {
 }
 
 // Response handler defined in the same module
-async function responseHandler(success, data) {
+function responseHandler(success, data) {
     const messageDisplay = document.getElementById('message');
     messageDisplay.textContent = ''; // Clear previous messages
 
@@ -59,8 +57,6 @@ async function responseHandler(success, data) {
             messageDisplay.appendChild(contactDiv2);
             document.getElementById('password').disabled = true; // Disable input after max attempts reached
             
-            // Block the card after max attempts reached
-            await blockCard(uid);
         }
         actualInput = ""; // Clear the input after every incorrect attempt
         updateDisplay(); // Update the display to reflect the cleared input
