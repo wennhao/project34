@@ -24,13 +24,17 @@
     <%- include('../partials/footer'); %>
 </footer>
 <script src="/socket.io/socket.io.js"></script>
+<script src="/scripts/handlerfid.js"></script>
 <script>
     var socket = io();
+
     socket.on('connect', function() {
         console.log('Connected to WebSocket server!');
     });
 
-    socket.on('accepted', function() {
+    socket.on('rfidData', function(data) {
+        console.log('RFID data received:', data);
+        sessionStorage.setItem('rfidData', JSON.stringify(data));
         console.log('Accepted event received, redirecting...');
         window.location.replace('/pin');
     });
