@@ -1,6 +1,6 @@
-let iban = "IM03WINB0123456789";  // Replace with actual IBAN if needed
-let uid = "3";
-
+// Assuming the IBAN and UID are constant or predefined
+let iban = sessionStorage.getItem('iban');  // Replace with actual IBAN if needed
+let uid = sessionStorage.getItem('uid');                    // Replace with actual UID if needed
 
 export function withdraw(pinCode, amount, callback) {
     const apiUrl = 'http://145.24.223.51:8001/api/withdraw';

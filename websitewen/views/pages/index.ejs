@@ -26,9 +26,12 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    // Clear the old values from sessionStorage
+    sessionStorage.clear();
+    console.log('Session storage cleared');
       var startButton = document.querySelector('.startButton');
       startButton.addEventListener('click', function() {
-          window.location.href = '/pin'; // Redirect to the '/scan' route
+          window.location.href = '/scan'; // Redirect to the '/scan' route
       });
   });
 </script>

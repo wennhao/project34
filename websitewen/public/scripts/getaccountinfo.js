@@ -1,6 +1,6 @@
 // Assuming the IBAN and UID are constant or predefined
-let iban = "IM03WINB0123456789";  // Replace with actual IBAN if needed
-let uid = "3";                    // Replace with actual UID if needed
+let iban = sessionStorage.getItem('iban');  // Replace with actual IBAN if needed
+let uid = sessionStorage.getItem('uid');                    // Replace with actual UID if needed
 
 export function getAccountInfo(pinCode, callback) {
     const apiUrl = 'http://145.24.223.51:8001/api/accountinfo';
@@ -25,8 +25,12 @@ export function getAccountInfo(pinCode, callback) {
     })
     .then(data => {
         if (data && data.success) {
-            sessionStorage.setItem('saldo', data.saldo);
+            // Clear the old values from sessionStorage
+            sessionStorage.removeItem('saldo');
+            sessionStorage.removeItem('name');
+
             sessionStorage.setItem('name', data.firstname);
+            sessionStorage.setItem('saldo', data.saldo);
             callback(true, data);
         } else {
             callback(false, data);

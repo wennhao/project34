@@ -26,7 +26,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 const SERIAL_PORT_AVAILABLE = true;  // Set this to either true or false if you're using a serial port or not
-const SERIAL_PORT_PATH_MAC = '/dev/cu.usbserial-230';  // Set the path to your serial port
+const SERIAL_PORT_PATH_MAC = '/dev/cu.usbmodem2301';  // Set the path to your serial port
 const SERIAL_PORT_PATH_WINDOWS = 'COM3';  // Set the path to your serial port on Windows
 const SERIAL_PORT_PATH_RASPBERRYPI = '/dev/ttyUSB0';  // Set the path to your serial port on Raspberry Pi
 
@@ -35,9 +35,8 @@ if (SERIAL_PORT_AVAILABLE) {
     const { ReadlineParser } = require("@serialport/parser-readline");
     const parser = new ReadlineParser({ delimiter: "\r\n" });
 
-
     const portArduino = new SerialPort.SerialPort({
-        path: SERIAL_PORT_PATH_RASPBERRYPI,
+        path: SERIAL_PORT_PATH_MAC,
         baudRate: 9600
     });
 
@@ -46,12 +45,17 @@ if (SERIAL_PORT_AVAILABLE) {
     });
 
     portArduino.pipe(parser);
+    console.log(io.sockets.server.engine.clientsCount); // Will print the number of connected clients
     console.log(io.sockets.version); // will print the version number of the socket.io client
     parser.on('data', (data) =>{
     
-    console.log('Data:', data);
+        console.log('Data:', data);
+        if (data.startsWith('rfid:')) {
+            const rfidData = data.slice(5).replace(/\u0000/g, '').trim(); // Remove the 'rfid:' prefix and clean the data
+            io.emit('rfidData', rfidData); // Emit the RFID data to all connected clients
+        }
 
-    io.emit('keypadData', {key: data.trim() });
+        io.emit('keypadData', {key: data.trim() });
 
     if(data.trim() === 'button1'){
         io.emit('button1');
@@ -88,6 +92,7 @@ if (SERIAL_PORT_AVAILABLE) {
 
 
     io.on('connection', (socket) => {
+        console.log('Client connected');
         // Example trigger for 'accepted' event
         socket.on('someTrigger', () => {
             console.log('Trigger received, sending accepted event...');
