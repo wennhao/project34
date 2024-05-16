@@ -1,5 +1,5 @@
-let iban = "IM03WINB0123456789";  // Replace with actual IBAN if needed
-let uid = "3";
+let iban = "IM04WINB0123456789";  // Replace with actual IBAN if needed
+let uid = "DUMMY003";                    // Replace with actual UID if needed
 
 
 export function withdraw(pinCode, amount, callback) {

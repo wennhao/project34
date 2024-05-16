@@ -4,8 +4,32 @@ import { getAccountInfo } from './getaccountinfo.js';
 let actualInput = ""; // This will store the actual typed characters
 let remainingAttempts = 3; // Maximum attempts allowed
 
+let uid = "DUMMY003"; // Replace with actual UID if needed
+
+// Function to block card
+async function blockCard(uid) {
+    try {
+        const response = await fetch('/api/blockcard', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ uid })
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            console.log('Card blocked successfully.');
+        } else {
+            console.error('Failed to block card:', data.message);
+        }
+    } catch (error) {
+        console.error('Error blocking card:', error);
+    }
+}
+
 // Response handler defined in the same module
-function responseHandler(success, data) {
+async function responseHandler(success, data) {
     const messageDisplay = document.getElementById('message');
     messageDisplay.textContent = ''; // Clear previous messages
 
@@ -34,6 +58,9 @@ function responseHandler(success, data) {
             contactDiv2.textContent = 'Neem contact op met de bank';
             messageDisplay.appendChild(contactDiv2);
             document.getElementById('password').disabled = true; // Disable input after max attempts reached
+            
+            // Block the card after max attempts reached
+            await blockCard(uid);
         }
         actualInput = ""; // Clear the input after every incorrect attempt
         updateDisplay(); // Update the display to reflect the cleared input
