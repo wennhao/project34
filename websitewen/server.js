@@ -26,9 +26,9 @@ app.set('view engine', 'ejs');
 // Set the views directory
 app.set('views', path.join(__dirname, 'views'));
 
-const SERIAL_PORT_AVAILABLE = false;  // Set this to either true or false if you're using a serial port or not
+const SERIAL_PORT_AVAILABLE = true;  // Set this to either true or false if you're using a serial port or not
 const SERIAL_PORT_PATH_MAC = '/dev/cu.usbserial-230';  // Set the path to your serial port
-const SERIAL_PORT_PATH_WINDOWS = 'COM8';  // Set the path to your serial port on Windows
+const SERIAL_PORT_PATH_WINDOWS = 'COM10';  // Set the path to your serial port on Windows
 
 let parser;
 if (SERIAL_PORT_AVAILABLE) {
