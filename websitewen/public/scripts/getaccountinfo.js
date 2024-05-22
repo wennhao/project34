@@ -1,13 +1,12 @@
 // Assuming the IBAN and UID are constant or predefined
 let iban = sessionStorage.getItem('iban');  // Replace with actual IBAN if needed
-let uid = sessionStorage.getItem('uid');                    // Replace with actual UID if needed
+let uid = sessionStorage.getItem('uid');    // Replace with actual UID if needed
 
 export function getAccountInfo(pinCode, callback) {
-    const apiUrl = 'http://145.24.223.51:8001/api/accountinfo';
+    const apiUrl = `http://145.24.223.51:8001/api/accountinfo?target=${iban}`;
     const data = {
-        iban: iban,
-        pincode: pinCode,
-        uid: uid
+        uid: uid,
+        pincode: pinCode
     };
 
     fetch(apiUrl, {
@@ -24,14 +23,17 @@ export function getAccountInfo(pinCode, callback) {
         return response.json();
     })
     .then(data => {
-        if (data && data.success) {
+        if (data && data.firstname) {
             // Clear the old values from sessionStorage
             sessionStorage.removeItem('saldo');
             sessionStorage.removeItem('name');
 
             sessionStorage.setItem('name', data.firstname);
-            sessionStorage.setItem('saldo', data.saldo);
+            sessionStorage.setItem('saldo', data.balance);
             callback(true, data);
+        } else if (data && data.attempts_remaining !== undefined) {
+            // Handle case where there are remaining attempts
+            callback(false, { message: 'Unauthorized: Incorrect PIN', attempts_remaining: data.attempts_remaining });
         } else {
             callback(false, data);
         }
@@ -39,6 +41,5 @@ export function getAccountInfo(pinCode, callback) {
     .catch((error) => {
         console.error('Error:', error);
         callback(false, { message: 'Failed to fetch data: ' + error.message }); // Callback indicating failure with error message
-        //alert('Failed to fetch data: ' + error.message); // Display error message
     });
 }
