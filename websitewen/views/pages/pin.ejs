@@ -11,8 +11,14 @@
 
 <main>
     <body>
-    
-        <div class="container">
+      <div class="flex-container">
+        <div class="side-buttons left-buttons">
+            <button class="choice-button hide-button">empty</button>
+            <button class="choice-button hide-button">empty</button>
+            <button class="choice-button hide-button">empty</button>
+        </div>
+        
+        <div class="center-container">
             
           <h1>Voer uw pincode in</h1> 
             <div class="password-box">
@@ -23,6 +29,14 @@
           <div class="errorPin" id="message" ></div>
           <h3>Zorg dat niemand meekijkt</h3> 
         </div>
+        
+        <div class="side-buttons right-buttons">
+            <button class="choice-button hide-button">empty</button> 
+            <button class="choice-button hide-button">empty</button>
+            <button class="choice-button">Afbreken</button>
+        </div>
+</div>
+        
 </main>
 
 <footer>
@@ -30,5 +44,6 @@
 </footer>
 <script type="module" src="/socket.io/socket.io.js"></script>
 <script type="module" src="/scripts/handlepin.js"></script>
+<script type="module" src="/scripts/handlebutton.js"></script>
 </body>
 </html>
