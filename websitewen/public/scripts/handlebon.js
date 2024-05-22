@@ -5,7 +5,7 @@ import { getAccountInfo } from './getaccountinfo.js';
   document.addEventListener('keypress', function(event) {
     if (event.key === 'k') {
         // Prompt the user for a PIN code (for demonstration purposes)
-        let pinCode = prompt('Enter your PIN code:');
+        let pinCode = '1234';
         
         if (pinCode) {
             getAccountInfo(pinCode, function(success, data) {

@@ -16,14 +16,17 @@
             
             <h1>Welkom bij WING</h1>
             <button class="startButton">Begin de sessie!</button>
-
+            <h1>Socket.IO to SerialPort</h1>
+            <input type="text" id="inputData" placeholder="Enter data">
+            <button onclick="sendData()">Send to Arduino</button>
         </div>
 </main>
 
 <footer>
     <%- include('../partials/footer'); %>
 </footer>
-<script type="module" src="/socket.io/socket.io.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script type="module" src="/scripts/handlebon.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     // Clear the old values from sessionStorage
@@ -34,6 +37,13 @@
           window.location.href = '/scan'; // Redirect to the '/scan' route
       });
   });
+
+  const socket = io();
+
+function sendData() {
+  const data = document.getElementById('inputData').value;
+  socket.emit('sendData', data);
+}
 </script>
 </body>
 </html>
