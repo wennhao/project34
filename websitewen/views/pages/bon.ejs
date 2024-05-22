@@ -35,5 +35,21 @@
 </footer>
 <script type="module" src="/socket.io/socket.io.js"></script>
 <script type="module" src="/scripts/handlebutton.js"></script>
+<script type="module" src="/scripts/handlebon.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var startButton = document.querySelector('.startButton');
+        startButton.addEventListener('click', function() {
+            window.location.href = '/scan'; // Redirect to the '/scan' route
+        });
+    });
+  
+    const socket = io();
+  
+    function sendData() {
+      const data = document.getElementById('inputData').value;
+      socket.emit('sendData', data);
+    }
+  </script>
 </body>
 </html>

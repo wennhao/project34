@@ -27,7 +27,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 const SERIAL_PORT_AVAILABLE = true;  // Set this to either true or false if you're using a serial port or not
 const SERIAL_PORT_PATH_MAC = '/dev/cu.usbmodem2301';  // Set the path to your serial port
-const SERIAL_PORT_PATH_WINDOWS = 'COM3';  // Set the path to your serial port on Windows
+const SERIAL_PORT_PATH_WINDOWS = 'COM8';  // Set the path to your serial port on Windows
 const SERIAL_PORT_PATH_RASPBERRYPI = '/dev/ttyUSB0';  // Set the path to your serial port on Raspberry Pi
 
 let parser;
@@ -36,13 +36,32 @@ if (SERIAL_PORT_AVAILABLE) {
     const parser = new ReadlineParser({ delimiter: "\r\n" });
 
     const portArduino = new SerialPort.SerialPort({
-        path: SERIAL_PORT_PATH_MAC,
+        path: SERIAL_PORT_PATH_WINDOWS,
         baudRate: 9600
     });
 
     portArduino.on('error', (err) => {
         console.error('Serial port: ', err.message);
     });
+
+// Serialport to Arduino communication
+io.on('connection', (socket) => {
+    console.log('A user connected');
+      
+    socket.on('disconnect', () => {
+    console.log('User disconnected');
+});
+      
+    socket.on('sendData', (data) => {
+    console.log('Received data from client: ', data);
+    portArduino.write(data + '\n', (err) => {
+    if (err) {
+        return console.error('Error writing to serial port: ', err);
+    }
+    console.log('Data written to serial port');
+    });
+});
+});
 
     portArduino.pipe(parser);
     console.log(io.sockets.server.engine.clientsCount); // Will print the number of connected clients
