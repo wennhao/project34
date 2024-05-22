@@ -4,7 +4,7 @@ let uid = sessionStorage.getItem('uid');                    // Replace with actu
 let pinCode = sessionStorage.getItem('pincode'); // Assuming the PIN code is also stored in sessionStorage
 
 // Assuming the IBAN, UID, and PIN are retrieved from sessionStorage
-function withdraw(amount, callback) {
+function withdrawStatic(amount, callback) {
     const apiUrl = 'http://145.24.223.51:8001/api/withdraw';
     const data = {
         iban: iban,
@@ -56,16 +56,14 @@ socket.on('button1', function() {
         console.log('Redirecting to keuze screen...');
         window.location.replace('/saldo');
     } else if (window.location.pathname.includes('/opnemen')) { // 20 euro button
-        // €50 button pressed, call withdraw function
+        // €50 button pressed, call withdrawStatic function
         console.log('Attempting to withdraw €20...');
-        withdraw(20, (success, data) => {
+        withdrawStatic(20, (success, data) => {
             if (success) {
                 console.log('Withdrawal successful:', data);
-                alert('Withdrawal successful!');
                 window.location.replace('/bon'); // Redirect to bon page
             } else {
                 console.error('Withdrawal failed:', data.message);
-                alert('Withdrawal failed: ' + data.message);
             }
         });
     } else if (window.location.pathname.includes('/bon')) { // wilt u een bon invis button
@@ -82,29 +80,25 @@ socket.on('button1', function() {
 socket.on('button2', function() {
     console.log('Accepted event received, redirecting...');
     if (window.location.pathname.includes('/keuze')) {
-        // €70 button pressed, call withdraw function
-        console.log('Attempting to withdraw €70...');
-        withdraw(70, (success, data) => {
+        // €70 button pressed, call withdrawStatic function snel opnemen
+        console.log('Attempting to fast withdraw €70...');
+        withdrawStatic(70, (success, data) => {
             if (success) {
                 console.log('Withdrawal successful:', data);
-                alert('Withdrawal successful!');
                 window.location.replace('/success'); // Redirect to bon page
             } else {
                 console.error('Withdrawal failed:', data.message);
-                alert('Withdrawal failed: ' + data.message);
             }
         });
     } else if (window.location.pathname.includes('/opnemen')) { // 50 euro button
-        // €50 button pressed, call withdraw function
+        // €50 button pressed, call withdrawStatic function
         console.log('Attempting to withdraw €50...');
-        withdraw(50, (success, data) => {
+        withdrawStatic(50, (success, data) => {
             if (success) {
                 console.log('Withdrawal successful:', data);
-                alert('Withdrawal successful!');
                 window.location.replace('/bon'); // Redirect to bon page
             } else {
                 console.error('Withdrawal failed:', data.message);
-                alert('Withdrawal failed: ' + data.message);
             }
         });
     } else if (window.location.pathname.includes('/saldo')) {
@@ -167,9 +161,9 @@ socket.on('button4', function() {
         console.log('Redirecting to keuze screen...');
         window.location.replace('/saldo');
     } else if (window.location.pathname.includes('/opnemen')) { // 100 euro button
-        // €100 button pressed, call withdraw function
+        // €100 button pressed, call withdrawStatic function
         console.log('Attempting to withdraw €100...');
-        withdraw(100, (success, data) => {
+        withdrawStatic(100, (success, data) => {
             if (success) {
                 console.log('Withdrawal successful:', data);
                 alert('Withdrawal successful!');
