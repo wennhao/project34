@@ -155,6 +155,7 @@ body {
 .choice-button {
   padding: 10px 20px;
   margin: 5vh;
+  margin-top: 2vh;
   font-family: 'Montserrat', sans-serif;
   font-size: 3.89vh;
   font-weight: 900;
