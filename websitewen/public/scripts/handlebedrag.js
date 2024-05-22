@@ -7,7 +7,7 @@ const saldo = sessionStorage.getItem('saldo');
 if (saldo) {
     const messageDisplay = document.getElementById('balance');
     let balanceDiv = document.createElement('div');
-    balanceDiv.textContent = 'saldo: €' + saldo;
+    balanceDiv.textContent = 'Huidig Saldo: €' + saldo;
     messageDisplay.appendChild(balanceDiv);
 }
 
