@@ -28,7 +28,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 const SERIAL_PORT_AVAILABLE = true;  // Set this to either true or false if you're using a serial port or not
 const SERIAL_PORT_PATH_MAC = '/dev/cu.usbserial-230';  // Set the path to your serial port
-const SERIAL_PORT_PATH_WINDOWS = 'COM10';  // Set the path to your serial port on Windows
+const SERIAL_PORT_PATH_WINDOWS = 'COM8';  // Set the path to your serial port on Windows
 
 let parser;
 if (SERIAL_PORT_AVAILABLE) {
@@ -44,6 +44,27 @@ if (SERIAL_PORT_AVAILABLE) {
     portArduino.on('error', (err) => {
         console.error('Serial port: ', err.message);
     });
+
+// Set up Socket.IO
+io.on('connection', (socket) => {
+console.log('A user connected');
+  
+socket.on('disconnect', () => {
+    console.log('User disconnected');
+    });
+  
+socket.on('sendData', (data) => {
+    console.log('Received data from client: ', data);
+    portArduino.write(data + '\n', (err) => {
+    if (err) {
+        return console.error('Error writing to serial port: ', err);
+    }
+    console.log('Data written to serial port');
+    });
+});
+});
+
+  
 
     portArduino.pipe(parser);
     console.log(io.sockets.version); // will print the version number of the socket.io client
@@ -97,6 +118,9 @@ if (SERIAL_PORT_AVAILABLE) {
     console.log("Serial port is not available, running in mock mode.");
     // Optional: Implement mock data handling or notifications
 }
+
+
+
 
 // Serve the MAIN page
 app.get('/', (req, res) => {

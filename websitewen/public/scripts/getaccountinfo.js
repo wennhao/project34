@@ -38,3 +38,4 @@ export function sendPostRequest(pinCode, callback) {
         //alert('Failed to fetch data: ' + error.message); // Display error message
     });
 }
+
