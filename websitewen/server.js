@@ -27,7 +27,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 const SERIAL_PORT_AVAILABLE = true;  // Set this to either true or false if you're using a serial port or not
 const SERIAL_PORT_PATH_MAC = '/dev/cu.usbmodem2301';  // Set the path to your serial port
-const SERIAL_PORT_PATH_WINDOWS = 'COM8';  // Set the path to your serial port on Windows
+const SERIAL_PORT_PATH_WINDOWS = 'COM10';  // Set the path to your serial port on Windows
 const SERIAL_PORT_PATH_RASPBERRYPI = '/dev/ttyUSB0';  // Set the path to your serial port on Raspberry Pi
 
 let parser;
