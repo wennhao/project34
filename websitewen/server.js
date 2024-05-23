@@ -52,9 +52,10 @@ io.on('connection', (socket) => {
     console.log('User disconnected');
 });
       
-    socket.on('sendData', (data) => {
+socket.on('sendData', (data) => {
     console.log('Received data from client: ', data);
-    portArduino.write(data + '\n', (err) => {
+    const customDataString = `${data.firstname},${data.balance}`;
+    portArduino.write(customDataString + '\n', (err) => {
     if (err) {
         return console.error('Error writing to serial port: ', err);
     }
