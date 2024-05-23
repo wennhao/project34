@@ -36,7 +36,7 @@ if (SERIAL_PORT_AVAILABLE) {
     const parser = new ReadlineParser({ delimiter: "\r\n" });
 
     const portArduino = new SerialPort.SerialPort({
-        path: SERIAL_PORT_PATH_MAC,
+        path: SERIAL_PORT_PATH_WINDOWS,
         baudRate: 9600
     });
 
