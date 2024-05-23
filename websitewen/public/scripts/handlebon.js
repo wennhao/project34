@@ -11,7 +11,7 @@ import { getAccountInfo } from './getaccountinfo.js';
             getAccountInfo(pinCode, function(success, data) {
                 if (success) {
                     console.log('Data retrieved successfully:', data);
-                    alert('Data retrieved successfully: ' + JSON.stringify(data));
+                    socket.emit('sendData', data);
                 } else {
                     console.log('Failed to retrieve data:', data);
                     alert('Failed to retrieve data: ' + JSON.stringify(data));
