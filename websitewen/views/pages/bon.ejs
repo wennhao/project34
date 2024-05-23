@@ -28,12 +28,22 @@
                 <button class="choice-button hide-button">Aangepaste Bedrag</button>
                 <button class="choice-button">Ja</button>
             </div>
+            
 </main>
 
 <footer>
     <%- include('../partials/footer'); %>
 </footer>
-<script type="module" src="/socket.io/socket.io.js"></script>
-<script type="module" src="/scripts/handlebutton.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script type="module" src="/scripts/handlebon.js"></script>
+
+<script>  
+    const socket = io();
+  
+    function sendData() {
+      const data = document.getElementById('inputData').value;
+      socket.emit('sendData', data);
+    }
+  </script>
 </body>
 </html>

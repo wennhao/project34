@@ -155,7 +155,7 @@ socket.on('button3', function() {
         console.log('Redirecting to keuze screen...');
         window.location.replace('/keuze');
     } else if (window.location.pathname.includes('/bon')) {
-        // Als de gebruiker zich op de keuze pagina bevindt
+        // Als de gebruiker zich op de bon pagina bevindt
         console.log('Redirecting to keuze screen...');
         window.location.replace('/success');
     } else if (window.location.pathname.includes('/opnemenbedrag')) {
@@ -265,11 +265,7 @@ socket.on('button6', function() {
         // Als de gebruiker zich op de saldo pagina bevindt
         console.log('Redirecting to success page...');
         window.location.replace('/success');
-    } else if (window.location.pathname.includes('/bon')) { //nee button
-        // Als de gebruiker zich op de saldo pagina bevindt
-        console.log('Redirecting to success page...');
-        window.location.replace('/success');
-    }else {
+    } else {
         // Default actie als geen van bovenstaande van toepassing is
         console.log('Default pointer to keuze...');
         window.location.replace('/keuze');
