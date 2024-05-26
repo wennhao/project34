@@ -23,8 +23,9 @@ function handleInput(key) {
             // Call the withdraw function
             withdraw(amount, (success, data) => {
                 if (success) {
-                    console.log("Balance withdrawn successfully:", data.newBalance);
+                    console.log("Balance withdrawn successfully:", data.newBalance, "+ amount: ", data.amount);
                     localStorage.setItem('saldo', data.newBalance); // Update the new balance in localStorage
+                    localStorage.setItem('amount', data.amount);
                     window.location.href = '/bon'; // Redirect on success
                 } else {
                     alert(`Error: ${data.message}`);

@@ -1,31 +1,30 @@
-// Import the sendPostRequest function from WithdrawStatic.js
-import { withdrawStatic } from './handlebutton.js';
+//import { withdraw } from './withdraw.js';
+import { withdrawStatic } from './getwithdrawinfo.js';
 
 socket.on('connect', function() {
     console.log('Connected to WebSocket server!');
 });
+
 let amount = sessionStorage.getItem('amount');
+
 socket.on('button3', function() {
-    // Als de gebruiker zich op de saldo pagina bevindt
     console.log('Redirecting to success page...');
     window.location.replace('/success');
 });
-  // Add event listener for key press
+
 socket.on('button6', function() {
-        // Prompt the user for a PIN code (for demonstration purposes)
-        if (window.location.pathname.includes('/bon')) { //nee button
-            if (amount) {
-                withdrawStatic(amount, function(success, data) {
-                    if (success) {
-                        console.log('Data retrieved successfully:', data);
-                        socket.emit('sendData', data);
-                        // Als de gebruiker zich op de saldo pagina bevindt
-                        console.log('Redirecting to success page...');
-                        window.location.replace('/success');
-                    } else {
-                        console.log('Failed to retrieve data:', data);
-                    }
-                });
-            }
+    if (window.location.pathname.includes('/bon')) {
+        if (amount) {
+            withdrawStatic(amount, function(success, data) {
+                if (success) {
+                    console.log('Data retrieved successfullYYYYY:', data);
+                    socket.emit('sendData', data);
+                    console.log('Redirecting to success page...');
+                    window.location.replace('/success');
+                } else {
+                    console.log('Failed to retrieve data:', data);
+                }
+            });            
         }
+    }
 });

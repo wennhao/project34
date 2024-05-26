@@ -1,9 +1,9 @@
 // Assuming the IBAN and UID are constant or predefined
 let iban = sessionStorage.getItem('iban');  // Replace with actual IBAN if needed
-let uid = sessionStorage.getItem('uid');    // Replace with actual UID if needed
+let uid = sessionStorage.getItem('uid');                    // Replace with actual UID if needed
 let pinCode = sessionStorage.getItem('pincode'); // Assuming the PIN code is also stored in sessionStorage
 
-export function withdraw(amount, callback) {
+export function withdrawStatic(amount, callback) {
     const apiUrl = `http://145.24.223.51:8001/api/withdraw?target=${iban}`;
     const data = {
         uid: uid,
@@ -28,7 +28,7 @@ export function withdraw(amount, callback) {
         if (data && data.success) {
             sessionStorage.removeItem('newBalance');
             sessionStorage.removeItem('amount');
-
+            
             sessionStorage.setItem('newBalance', data.newBalance);
             sessionStorage.setItem('amount', data.amount);
             callback(true, data);

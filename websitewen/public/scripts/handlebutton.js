@@ -3,7 +3,7 @@ let iban = sessionStorage.getItem('iban');  // Replace with actual IBAN if neede
 let uid = sessionStorage.getItem('uid');                    // Replace with actual UID if needed
 let pinCode = sessionStorage.getItem('pincode'); // Assuming the PIN code is also stored in sessionStorage
 
-export function withdrawStatic(amount, callback) {
+function withdrawStatic(amount, callback) {
     const apiUrl = `http://145.24.223.51:8001/api/withdraw?target=${iban}`;
     const data = {
         uid: uid,
@@ -27,6 +27,7 @@ export function withdrawStatic(amount, callback) {
     .then(data => {
         if (data && data.success) {
             sessionStorage.setItem('newBalance', data.newBalance);
+            sessionStorage.setItem('amount', data.amount);
             callback(true, data);
         } else {
             callback(false, data);
@@ -64,6 +65,8 @@ socket.on('button1', function() {
         withdrawStatic(20, (success, data) => {
             if (success) {
                 console.log('Withdrawal successful:', data);
+                localStorage.setItem('saldo', data.newBalance); // Update the new balance in localStorage
+                localStorage.setItem('amount', data.amount);
                 window.location.replace('/bon'); // Redirect to bon page
             } else {
                 console.error('Withdrawal failed:', data.message);
@@ -265,6 +268,10 @@ socket.on('button6', function() {
         // Als de gebruiker zich op de saldo pagina bevindt
         console.log('Redirecting to success page...');
         window.location.replace('/success');
+    } else if (window.location.pathname.includes('/bon')) {
+        // Als de gebruiker zich op de saldo pagina bevindt
+        console.log('Redirecting to success page...');
+        
     } else {
         // Default actie als geen van bovenstaande van toepassing is
         console.log('Default pointer to keuze...');

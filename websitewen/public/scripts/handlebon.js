@@ -4,7 +4,7 @@ import { getAccountInfo } from './getaccountinfo.js';
 socket.on('connect', function() {
     console.log('Connected to WebSocket server!');
 });
-let pinCode = sessionStorage.getItem('pincode');
+let pinCode = '1234';
 socket.on('button3', function() {
     // Als de gebruiker zich op de saldo pagina bevindt
     console.log('Redirecting to success page...');
