@@ -64,7 +64,8 @@ socket.on('sendData', (amount) => {
 });
 socket.on('sendAccountinfo', (data) => {
     console.log('Received data from client:', data);
-        portArduino.write(data + '\n', (err) => {
+    const customDataString = `${data.firstname},${data.balance}`;
+        portArduino.write(customDataString + '\n', (err) => {
             if (err) {
                 console.error('Error writing to serial port:', err);
             } else {

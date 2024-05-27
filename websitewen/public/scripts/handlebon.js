@@ -18,7 +18,7 @@ socket.on('button6', function() {
                 getAccountInfo(pinCode, function(success, data) {
                     if (success) {
                         console.log('Data retrieved successfully:', data);
-                        socket.emit('sendData', data);
+                        socket.emit('sendAccountinfo', data);
                         // Als de gebruiker zich op de saldo pagina bevindt
                         console.log('Redirecting to success page...');
                         window.location.replace('/success');
@@ -28,4 +28,26 @@ socket.on('button6', function() {
                 });
             }
         }
+});
+
+// Combined handler
+socket.on('sendDataOrAccountInfo', (data) => {
+    let message;
+    if (data.type === 'data') {
+        console.log('Received data from client:', data.amount);
+        message = `SEND_DATA:${data.amount}\n`;
+    } else if (data.type === 'accountInfo') {
+        console.log('Received account info from client:', data);
+        message = `SEND_ACCOUNT_INFO:${data.firstname},${data.balance}\n`;
+    }
+
+    if (message) {
+        portArduino.write(message, (err) => {
+            if (err) {
+                console.error('Error writing to serial port:', err);
+            } else {
+                console.log('Data written to serial port:', message);
+            }
+        });
+    }
 });

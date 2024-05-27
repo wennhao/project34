@@ -2,6 +2,8 @@ import { withdraw } from './withdraw.js';
 import { getAccountInfo } from './getaccountinfo.js';
 //import { withdrawStatic } from './getwithdrawinfo.js';
 
+let pinCode = sessionStorage.getItem("pincode");
+
 socket.on('connect', function() {
     console.log('Connected to WebSocket server!');
 });
@@ -14,7 +16,7 @@ socket.on('button3', function() {
 socket.on('button6', function() {
     if (window.location.pathname.includes('/bon')) {
         const amount = parseFloat(sessionStorage.getItem('amount')); // Retrieve the amount from localStorage
-        console.log('Retrieved amount from localStorage:', amount);
+        console.log('Retrieved amount from localStorage:', amount);       
         if (amount) {
             withdraw(amount, function(success, data) {
                 if (success) {
@@ -25,14 +27,7 @@ socket.on('button6', function() {
                 } else {
                     console.log('Failed to retrieve data:', data);
                 }
-            });            
-        } else {
-            console.log('Amount not found in localStorage');
-        }
-
-        let pinCode = sessionStorage.getItem("pincode");;
-
-        if (pinCode) {
+            });   
             getAccountInfo(pinCode, function(success, data) {
                 if (success) {
                     console.log('Data retrieved successfully:', data);
@@ -43,7 +38,9 @@ socket.on('button6', function() {
                 } else {
                     console.log('Failed to retrieve data:', data);
                 }
-            });
+            });         
+        } else {
+            console.log('Amount not found in localStorage');
         }
     }
 });
