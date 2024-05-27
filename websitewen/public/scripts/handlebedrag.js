@@ -20,12 +20,13 @@ function handleInput(key) {
     } else if (key === "D" || key === "d") {
         if (actualInput.length >= 2) {
             const amount = parseFloat(actualInput);
+            console.log("storing amount..." + amount);
             // Call the withdraw function
             withdraw(amount, (success, data) => {
                 if (success) {
-                    console.log("Balance withdrawn successfully:", data.newBalance, "+ amount: ", data.amount);
-                    localStorage.setItem('saldo', data.newBalance); // Update the new balance in localStorage
-                    localStorage.setItem('amount', data.amount);
+                    console.log("Balance withdrawn successfully:", "--> amount: ", amount);
+                    //localStorage.setItem('saldo', data.newBalance); // Update the new balance in localStorage
+                    sessionStorage.setItem('amount', amount);
                     window.location.href = '/bon'; // Redirect on success
                 } else {
                     alert(`Error: ${data.message}`);

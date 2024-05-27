@@ -53,14 +53,20 @@ io.on('connection', (socket) => {
 });
       
 socket.on('sendData', (data) => {
-    console.log('Received data from client: ', data);
-    const customDataString = `${data.firstname},${data.balance}`;
-    portArduino.write(customDataString + '\n', (err) => {
-    if (err) {
-        return console.error('Error writing to serial port: ', err);
+    console.log('Received data from client:', data);
+    const { success, amount } = data;
+    if (success) {
+        const amountString = `${amount}`;
+        portArduino.write(amountString + '\n', (err) => {
+            if (err) {
+                console.error('Error writing to serial port:', err);
+            } else {
+                console.log('Data written to serial port:', amountString);
+            }
+        });
+    } else {
+        console.error('Failed to retrieve data:', data);
     }
-    console.log('Data written to serial port');
-    });
 });
 });
 
