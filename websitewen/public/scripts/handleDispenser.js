@@ -1,4 +1,5 @@
 import { withdraw } from './withdraw.js';
+import { getAccountInfo } from './getaccountinfo.js';
 //import { withdrawStatic } from './getwithdrawinfo.js';
 
 socket.on('connect', function() {
@@ -17,8 +18,8 @@ socket.on('button6', function() {
         if (amount) {
             withdraw(amount, function(success, data) {
                 if (success) {
-                    console.log('Data retrieved successfully:', data);
-                    socket.emit('sendData', data);
+                    console.log('Data retrieved successfully:', amount);
+                    socket.emit('sendData', amount);
                     console.log('Redirecting to success page...');
                     window.location.replace('/success');
                 } else {
@@ -27,6 +28,22 @@ socket.on('button6', function() {
             });            
         } else {
             console.log('Amount not found in localStorage');
+        }
+
+        let pinCode = sessionStorage.getItem("pincode");;
+
+        if (pinCode) {
+            getAccountInfo(pinCode, function(success, data) {
+                if (success) {
+                    console.log('Data retrieved successfully:', data);
+                    socket.emit('sendAccountinfo', data);
+                    // Als de gebruiker zich op de saldo pagina bevindt
+                    console.log('Redirecting to success page...');
+                    window.location.replace('/success');
+                } else {
+                    console.log('Failed to retrieve data:', data);
+                }
+            });
         }
     }
 });

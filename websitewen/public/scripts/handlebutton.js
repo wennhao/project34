@@ -275,6 +275,6 @@ socket.on('button6', function() {
     } else {
         // Default actie als geen van bovenstaande van toepassing is
         console.log('Default pointer to keuze...');
-        window.location.replace('/keuze');
+        //window.location.replace('/keuze');
     }
 });
