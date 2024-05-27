@@ -23,7 +23,7 @@ function handleRFIDData(data) {
         // Validate IBAN format: 2 letters, 2 digits, 4 letters, 10 digits
         const ibanPattern = /^[A-Z]{2}[0-9]{2}[A-Z]{4}[0-9]{10}$/;
         // Validate UID format: 8 hexadecimal characters
-        const uidPattern = /^[0-9A-F]{8}$/;
+        const uidPattern = /^[0-9A-Fa-f]{8}$/;
 
         if (ibanPattern.test(IBAN) && uidPattern.test(UID)) {
             // Save IBAN and UID into sessionStorage

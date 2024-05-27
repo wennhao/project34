@@ -92,7 +92,7 @@ socket.on('button2', function() {
         withdrawStatic(70, (success, data) => {
             if (success) {
                 console.log('Withdrawal successful:', data);
-                window.location.replace('/success'); // Redirect to bon page
+                window.location.replace('/bon'); // Redirect to bon page
             } else {
                 console.error('Withdrawal failed:', data.message);
             }

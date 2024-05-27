@@ -2,7 +2,7 @@
 let iban = sessionStorage.getItem("iban");  // Replace with actual IBAN if needed
 let uid = sessionStorage.getItem("uid");  // Replace with actual UID if needed
 
-// Function for fetching account info when IBAN contains "IM00WINB"
+// Function for fetching account info when IBAN contains "IMXXWINB"
 export function getAccountInfo(pinCode, callback) {
     const apiUrl = `http://145.24.223.51:8001/api/accountinfo?target=${iban}`;
     const data = {
@@ -45,19 +45,18 @@ export function getAccountInfo(pinCode, callback) {
     });
 }
 
-// Function for fetching account info when IBAN does not contain "IM00WINB"
+// Function for fetching account info from the new API endpoint
 export function getAccountInfoNoob(pinCode, callback) {
-    const apiUrl = `https://noob.datalabrotterdam.nl/api/noob/accountinfo?target=${iban}`;
+    const apiUrl = `http://145.24.223.51:8001/api/accountinfo/noob?target=${iban}`;
     const data = {
-        uid: uid,  // Replace with actual UID if needed
-        pincode: pinCode   // Replace with actual pincode if needed
+        uid: uid,  // Using the same UID from sessionStorage
+        pincode: pinCode
     };
 
     fetch(apiUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'noob-token': '4069cfd0-ec82-44da-b173-6e1e9df06b18'  // Replace with actual token if needed
         },
         body: JSON.stringify(data)
     })
@@ -91,7 +90,9 @@ export function getAccountInfoNoob(pinCode, callback) {
 
 // Function to determine which getAccountInfo function to call based on IBAN
 export function determineAccountInfo(pinCode, callback) {
-    if (iban.startsWith("IM00WINB")) {
+    // Check if the IBAN starts with "IM" followed by two digits and "WINB"
+    const ibanPattern = /^IM\d{2}WINB/;
+    if (ibanPattern.test(iban)) {
         getAccountInfo(pinCode, callback);
     } else {
         getAccountInfoNoob(pinCode, callback);
