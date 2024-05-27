@@ -1,5 +1,5 @@
 // Import the getAccountInfo function from getaccountinfo.js
-import { withdraw } from './withdraw.js';
+import { determineWithdraw } from './withdraw.js';
 
 
 let actualInput = ""; // This will store the actual typed characters
@@ -21,7 +21,7 @@ function handleInput(key) {
         if (actualInput.length >= 2) {
             const amount = parseFloat(actualInput);
             // Call the withdraw function
-            withdraw(amount, (success, data) => {
+            determineWithdraw(amount, (success, data) => {
                 if (success) {
                     console.log("Balance withdrawn successfully:", data.newBalance);
                     localStorage.setItem('saldo', data.newBalance); // Update the new balance in localStorage

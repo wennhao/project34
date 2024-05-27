@@ -1,7 +1,6 @@
 // Assuming the IBAN and UID are stored in sessionStorage
 let iban = sessionStorage.getItem("iban");  // Replace with actual IBAN if needed
 let uid = sessionStorage.getItem("uid");  // Replace with actual UID if needed
-
 // Function for fetching account info when IBAN contains "IMXXWINB"
 export function getAccountInfo(pinCode, callback) {
     const apiUrl = `http://145.24.223.51:8001/api/accountinfo?target=${iban}`;
@@ -49,7 +48,7 @@ export function getAccountInfo(pinCode, callback) {
 export function getAccountInfoNoob(pinCode, callback) {
     const apiUrl = `http://145.24.223.51:8001/api/accountinfo/noob?target=${iban}`;
     const data = {
-        uid: uid,  // Using the same UID from sessionStorage
+        uid: "12345678",  // Using the same UID from sessionStorage
         pincode: pinCode
     };
 
