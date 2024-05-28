@@ -66,12 +66,9 @@ void loop() {
 
   if (Serial.available() > 0) {                  // Check if data is available to read
     String data = Serial.readStringUntil('\n');  // Read the data until newline character ('\n')
-    // Print the received data to the thermal printer
-    printer.println("Received data: " + data);
-    // Print additional content or format the receipt as needed
-    // e.g., printer.println("Thank you for your purchase!");
-    //      printer.feed(2); // Feed paper
-    printer.feed(2);  // Feed paper
+    //printer.println("Received data: " + data);
+    printReceipt(data);  // Call function to print the receipt
+    printer.feed(3);     // Feed paper
   }
 
   // Check buttons with debouncing
@@ -218,12 +215,38 @@ void readKey() {
   }
 }
 
-void printAmount(float amount) {
-  printer.println("Receipt");
-  printer.println("------------------");
-  printer.print("Amount: ");
-  printer.print(amount, 2);  // Print the amount with 2 decimal places
-  printer.println(" USD");
-  printer.println("------------------");
-  printer.feed(3);  // Feed a few lines for better readability
+void printReceipt(String data) {
+  // Split the data into fields using a delimiter, e.g., comma
+  // Example data: "John,100"
+  int separatorIndex = data.indexOf(',');
+  String name = data.substring(0, separatorIndex);
+  String balance = data.substring(separatorIndex + 1);
+  String amount = data.substring(separatorIndex + 2);
+
+  printer.setFont('A');
+  printer.justify('C');
+  printer.setSize('L');
+  printer.println("WING");
+  printer.setSize('M');
+  printer.println("Isle of Man");
+  printer.setSize('S');
+  printer.justify('C');
+  printer.println("--------------------------------");
+  printer.justify('L');
+  printer.println("Automaat: WING1");
+  printer.print("Naam: ");
+  printer.println(name);
+  printer.print("Datum: ");
+  printer.println("28/05/2024   Tijd: 12:40");  // You can update the date and time dynamically
+  printer.println("Kaart: xxxxxxxxxxxxxx1234");
+  printer.justify('C');
+  printer.println("--------------------------------");
+  printer.setSize('M');
+  printer.print("Totaal: ");
+  printer.print(balance);
+  printer.setSize('S');
+  printer.setFont('B');
+  printer.feed();
+  printer.println("Transactie: xxx");  // You can update the transaction ID dynamically
+  printer.feed(4);
 }

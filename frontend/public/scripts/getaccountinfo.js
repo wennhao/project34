@@ -48,7 +48,7 @@ export function getAccountInfo(pinCode, callback) {
 export function getAccountInfoNoob(pinCode, callback) {
     const apiUrl = `http://145.24.223.51:8001/api/accountinfo/noob?target=${iban}`;
     const data = {
-        uid: "12345678",  // Using the same UID from sessionStorage
+        uid: uid,  // Using the same UID from sessionStorage
         pincode: pinCode
     };
 

@@ -1,5 +1,5 @@
 // Import the sendPostRequest function from getaccountinfo.js
-import { getAccountInfo } from './getaccountinfo.js';
+import { determineAccountInfo } from './getaccountinfo.js';
 
 socket.on('connect', function() {
     console.log('Connected to WebSocket server!');
@@ -15,7 +15,7 @@ socket.on('button6', function() {
         // Prompt the user for a PIN code (for demonstration purposes)
         if (window.location.pathname.includes('/bon')) { //nee button
             if (pinCode) {
-                getAccountInfo(pinCode, function(success, data) {
+                determineAccountInfo(pinCode, function(success, data) {
                     if (success) {
                         console.log('Data retrieved successfully:', data);
                         socket.emit('sendData', data);

@@ -1,5 +1,3 @@
-
-
 // Assuming the IBAN and UID are constant or predefined
 let iban = sessionStorage.getItem('iban');  // Replace with actual IBAN if needed
 let uid = sessionStorage.getItem('uid');                    // Replace with actual UID if needed
@@ -21,18 +19,15 @@ function withdrawStatic(amount, callback) {
         body: JSON.stringify(data),
     })
     .then(response => {
-        if (!response.ok) {
+        if (response.status === 200) {
+            return response.json();
+        } else {
             throw new Error('Network response was not ok ' + response.statusText);
         }
-        return response.json();
     })
     .then(data => {
-        if (data && data.success) {
-            sessionStorage.setItem('newBalance', data.newBalance);
-            callback(true, data);
-        } else {
-            callback(false, data);
-        }
+        sessionStorage.setItem('newBalance', data.newBalance);
+        callback(true, data);
     })
     .catch((error) => {
         console.error('Error:', error);
@@ -44,7 +39,7 @@ function withdrawStatic(amount, callback) {
 function withdrawNoobStatic(amount, callback) {
     const apiUrl = `http://145.24.223.51:8001/api/withdraw/noob?target=${iban}`;
     const data = {
-        uid: "12345678",
+        uid: uid,
         pincode: pinCode,
         amount: amount,
     };
@@ -57,17 +52,14 @@ function withdrawNoobStatic(amount, callback) {
         body: JSON.stringify(data)
     })
     .then(response => {
-        if (!response.ok) {
+        if (response.status === 200) {
+            return response.json();
+        } else {
             throw new Error('Network response was not ok ' + response.statusText);
         }
-        return response.json();
     })
     .then(data => {
-        if (data.success) {
-            callback(true, data);
-        } else {
-            callback(false, data);
-        }
+        callback(true, data);
     })
     .catch((error) => {
         console.error('Error:', error);
@@ -76,13 +68,13 @@ function withdrawNoobStatic(amount, callback) {
 }
 
 // Function to determine which withdraw function to call based on IBAN
-function determineWithdrawStatic( amount, callback) {
+function determineWithdrawStatic(amount, callback) {
     // Check if the IBAN starts with "IM" followed by two digits and "WINB"
     const ibanPattern = /^IM\d{2}WINB/;
     if (ibanPattern.test(iban)) {
         withdrawStatic(amount, callback); // Assuming you have a withdraw function for IMXXWINB IBANs
     } else {
-        withdrawNoobStatic( amount, callback);
+        withdrawNoobStatic(amount, callback);
     }
 }
 

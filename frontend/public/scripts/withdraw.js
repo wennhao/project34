@@ -19,18 +19,15 @@ function withdraw(amount, callback) {
         body: JSON.stringify(data),
     })
     .then(response => {
-        if (!response.ok) {
+        if (response.status === 200) {
+            return response.json();
+        } else {
             throw new Error('Network response was not ok ' + response.statusText);
         }
-        return response.json();
     })
     .then(data => {
-        if (data && data.success) {
-            sessionStorage.setItem('newBalance', data.newBalance);
-            callback(true, data);
-        } else {
-            callback(false, data);
-        }
+        sessionStorage.setItem('newBalance', data.newBalance);
+        callback(true, data);
     })
     .catch((error) => {
         console.error('Error:', error);
@@ -42,7 +39,7 @@ function withdraw(amount, callback) {
 function withdrawNoob(pinCode, amount, callback) {
     const apiUrl = `http://145.24.223.51:8001/api/withdraw/noob?target=${iban}`;
     const data = {
-        uid: "12345678",
+        uid: uid,
         pincode: pinCode,
         amount: amount
     };
@@ -55,17 +52,14 @@ function withdrawNoob(pinCode, amount, callback) {
         body: JSON.stringify(data)
     })
     .then(response => {
-        if (!response.ok) {
+        if (response.status === 200) {
+            return response.json();
+        } else {
             throw new Error('Network response was not ok ' + response.statusText);
         }
-        return response.json();
     })
     .then(data => {
-        if (data.success) {
-            callback(true, data);
-        } else {
-            callback(false, data);
-        }
+        callback(true, data);
     })
     .catch((error) => {
         console.error('Error:', error);
