@@ -26,7 +26,11 @@ export function withdraw(amount, callback) {
     })
     .then(data => {
         if (data && data.success) {
-            sessionStorage.setItem('newBalance', data.newBalance);
+            //sessionStorage.removeItem('newBalance');
+            sessionStorage.removeItem('current');
+
+            //sessionStorage.setItem('newBalance', data.newBalance);
+            sessionStorage.setItem('current', amount);
             callback(true, data);
         } else {
             callback(false, data);
