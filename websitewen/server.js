@@ -52,9 +52,10 @@ io.on('connection', (socket) => {
     console.log('User disconnected');
 });
       
-socket.on('sendData', (amount) => {
-    console.log('Received data from client:', amount);
-        portArduino.write(amount + '\n', (err) => {
+socket.on('sendData', (amount, data) => {
+    console.log('Received data from client:', amount, data);
+    const customDataString = `${data.firstname},${data.balance}, ${amount}`;
+        portArduino.write(customDataString + '\n', (err) => {
             if (err) {
                 console.error('Error writing to serial port:', err);
             } else {
@@ -62,17 +63,17 @@ socket.on('sendData', (amount) => {
             }
         });
 });
-socket.on('sendAccountinfo', (data) => {
-    console.log('Received data from client:', data);
-    const customDataString = `${data.firstname},${data.balance}`;
-        portArduino.write(customDataString + '\n', (err) => {
-            if (err) {
-                console.error('Error writing to serial port:', err);
-            } else {
-                console.log('Data written to serial port:', data);
-            }
-        });
-});
+// socket.on('sendAccountinfo', (data) => {
+//     console.log('Received data from client:', data);
+//     const customDataString = `${data.firstname},${data.balance}`;
+//         portArduino.write(customDataString + '\n', (err) => {
+//             if (err) {
+//                 console.error('Error writing to serial port:', err);
+//             } else {
+//                 console.log('Data written to serial port:', data);
+//             }
+//         });
+// });
 });
 
     portArduino.pipe(parser);
