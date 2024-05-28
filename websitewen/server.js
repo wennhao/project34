@@ -200,6 +200,13 @@ app.get('/success', (req, res) => {
     });
 });
 
+// Serve the snelopnemenscherm
+app.get('/biljetkeuze', (req, res) => {
+    res.render('pages/biljetkeuze', {
+        title: 'Biljetscherm' // Automatically uses layout.ejs and passes this title
+    });
+});
+
 // about page
 app.get('/about', function(req, res) {
     res.render('pages/about');

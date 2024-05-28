@@ -3,7 +3,7 @@ let iban = sessionStorage.getItem('iban');  // Replace with actual IBAN if neede
 let uid = sessionStorage.getItem('uid');    // Replace with actual UID if needed
 let pinCode = sessionStorage.getItem('pincode'); // Assuming the PIN code is also stored in sessionStorage
 
-export function withdraw(amount, callback) {
+function withdraw(amount, callback) {
     const apiUrl = `http://145.24.223.51:8001/api/withdraw?target=${iban}`;
     const data = {
         uid: uid,
@@ -36,4 +36,50 @@ export function withdraw(amount, callback) {
         console.error('Error:', error);
         callback(false, { message: 'Failed to withdraw: ' + error.message });
     });
+}
+
+// Function to withdraw money when IBAN does not contain "IMXXWINB"
+function withdrawNoob(pinCode, amount, callback) {
+    const apiUrl = `http://145.24.223.51:8001/api/withdraw/noob?target=${iban}`;
+    const data = {
+        uid: "12345678",
+        pincode: pinCode,
+        amount: amount
+    };
+
+    fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            callback(true, data);
+        } else {
+            callback(false, data);
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        callback(false, { message: 'Failed to process withdrawal: ' + error.message }); // Callback indicating failure with error message
+    });
+}
+
+// Function to determine which withdraw function to call based on IBAN
+export function determineWithdraw(amount, callback) {
+    // Check if the IBAN starts with "IM" followed by two digits and "WINB"
+    const ibanPattern = /^IM\d{2}WINB/;
+    if (ibanPattern.test(iban)) {
+        withdraw(amount, callback); // Assuming you have a withdraw function for IMXXWINB IBANs
+    } else {
+        withdrawNoob(amount, callback);
+    }
 }
