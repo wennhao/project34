@@ -1,4 +1,4 @@
-// Assuming the IBAN and UID are constant or predefined
+// withdraw.js
 let iban = sessionStorage.getItem('iban');  // Replace with actual IBAN if needed
 let uid = sessionStorage.getItem('uid');    // Replace with actual UID if needed
 let pinCode = sessionStorage.getItem('pincode'); // Assuming the PIN code is also stored in sessionStorage
@@ -26,7 +26,11 @@ function withdraw(amount, callback) {
         }
     })
     .then(data => {
+        sessionStorage.removeItem('newBalance');
+        sessionStorage.removeItem('current');
+
         sessionStorage.setItem('newBalance', data.newBalance);
+        sessionStorage.setItem('current', amount);
         callback(true, data);
     })
     .catch((error) => {
@@ -36,7 +40,7 @@ function withdraw(amount, callback) {
 }
 
 // Function to withdraw money when IBAN does not contain "IMXXWINB"
-function withdrawNoob(pinCode, amount, callback) {
+function withdrawNoob(amount, callback) {
     const apiUrl = `http://145.24.223.51:8001/api/withdraw/noob?target=${iban}`;
     const data = {
         uid: uid,
@@ -59,6 +63,11 @@ function withdrawNoob(pinCode, amount, callback) {
         }
     })
     .then(data => {
+        sessionStorage.removeItem('newBalance');
+        sessionStorage.removeItem('current');
+        
+        sessionStorage.setItem('newBalance', data.newBalance);
+        sessionStorage.setItem('current', amount);
         callback(true, data);
     })
     .catch((error) => {
@@ -68,12 +77,12 @@ function withdrawNoob(pinCode, amount, callback) {
 }
 
 // Function to determine which withdraw function to call based on IBAN
-export function determineWithdraw(amount, callback) {
+export default function determineWithdraw(amount, callback) {
     // Check if the IBAN starts with "IM" followed by two digits and "WINB"
     const ibanPattern = /^IM\d{2}WINB/;
     if (ibanPattern.test(iban)) {
         withdraw(amount, callback); // Assuming you have a withdraw function for IMXXWINB IBANs
     } else {
-        withdrawNoob(amount, callback);
+        withdrawNoob( amount, callback);
     }
 }

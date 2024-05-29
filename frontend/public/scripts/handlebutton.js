@@ -103,6 +103,7 @@ socket.on('button1', function() {
         console.log('Attempting to withdraw €20...');
         determineWithdrawStatic(20, (success, data) => {
             if (success) {
+                sessionStorage.setItem('current', 20);
                 console.log('Withdrawal successful:', data);
                 window.location.replace('/bon'); // Redirect to bon page
             } else {
@@ -131,6 +132,7 @@ socket.on('button2', function() {
         console.log('Attempting to fast withdraw €70...');
         determineWithdrawStatic(70, (success, data) => {
             if (success) {
+                sessionStorage.setItem('current', 70);
                 console.log('Withdrawal successful:', data);
                 window.location.replace('/bon'); // Redirect to bon page
             } else {
@@ -146,6 +148,7 @@ socket.on('button2', function() {
         console.log('Attempting to withdraw €50...');
         determineWithdrawStatic(50, (success, data) => {
             if (success) {
+                sessionStorage.setItem('current', 50);
                 console.log('Withdrawal successful:', data);
                 window.location.replace('/bon'); // Redirect to bon page
             } else {
@@ -228,6 +231,7 @@ socket.on('button4', function() {
         console.log('Attempting to withdraw €100...');
         determineWithdrawStatic(100, (success, data) => {
             if (success) {
+                sessionStorage.setItem('current', 100);
                 console.log('Withdrawal successful:', data);
                 window.location.replace('/bon'); // Redirect to bon page
             } else {

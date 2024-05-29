@@ -2,7 +2,7 @@
 let iban = sessionStorage.getItem("iban");  // Replace with actual IBAN if needed
 let uid = sessionStorage.getItem("uid");  // Replace with actual UID if needed
 // Function for fetching account info when IBAN contains "IMXXWINB"
-export function getAccountInfo(pinCode, callback) {
+function getAccountInfo(pinCode, callback) {
     const apiUrl = `http://145.24.223.51:8001/api/accountinfo?target=${iban}`;
     const data = {
         uid: uid,
@@ -45,7 +45,7 @@ export function getAccountInfo(pinCode, callback) {
 }
 
 // Function for fetching account info from the new API endpoint
-export function getAccountInfoNoob(pinCode, callback) {
+function getAccountInfoNoob(pinCode, callback) {
     const apiUrl = `http://145.24.223.51:8001/api/accountinfo/noob?target=${iban}`;
     const data = {
         uid: uid,  // Using the same UID from sessionStorage
@@ -88,7 +88,7 @@ export function getAccountInfoNoob(pinCode, callback) {
 }
 
 // Function to determine which getAccountInfo function to call based on IBAN
-export function determineAccountInfo(pinCode, callback) {
+export default function determineAccountInfo(pinCode, callback) {
     // Check if the IBAN starts with "IM" followed by two digits and "WINB"
     const ibanPattern = /^IM\d{2}WINB/;
     if (ibanPattern.test(iban)) {

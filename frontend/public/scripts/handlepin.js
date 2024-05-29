@@ -1,5 +1,5 @@
 // Import the getAccountInfo function from getaccountinfo.js
-import { determineAccountInfo } from './getaccountinfo.js';
+import determineAccountInfo from './getaccountinfo.js';
 
 let actualInput = ""; // This will store the actual typed characters
 let remainingAttempts = 3; // Maximum attempts allowed

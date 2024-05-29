@@ -1,5 +1,5 @@
 // Import the getAccountInfo function from getaccountinfo.js
-import { determineWithdraw } from './withdraw.js';
+import determineWithdraw from './withdraw.js';
 
 
 let actualInput = ""; // This will store the actual typed characters
