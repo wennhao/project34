@@ -1,9 +1,9 @@
 ﻿# README PROJECT 3/4
 Dit project is gemaakt door Jorge & Wen Hao
 # Contents
-Dit project bevat 2 belangrijke folders, backend en websitewen. 
+Dit project bevat 2 belangrijke folders, backend en frontend. 
 
-Voor nu om de Graphical User Interface(GUI) te runnen gebruiken we de mapje **"websitewen"**.
+Om de Graphical User Interface(GUI) te runnen gebruiken we de mapje **"frontend"**.
 
 Installatie
 ===========
@@ -11,9 +11,9 @@ Installatie
 > Om de **GUI** te starten moet je de
 > volgende stappen goed volgen!
 
-Allereerst moeten we de mapje **"websitewen"** openen
+Allereerst moeten we de mapje **"frontend"** openen
 ```
-cd websitewen
+cd frontend
 ```
 
 Vervolgens run je de volgende command om de inhoud van de mapje te bekijken.
