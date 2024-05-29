@@ -21,16 +21,11 @@ function handleInput(key) {
         if (actualInput.length >= 2) {
             const amount = parseFloat(actualInput);
             // Call the withdraw function
-            determineWithdraw(amount, (success, data) => {
-                if (success) {
-                    console.log("Amount -->", amount);
-                    localStorage.setItem('saldo', data.newBalance); // Update the new balance in localStorage   
-                    console.log("newBalance -->", data.newBalance);              
-                    window.location.href = '/bon'; // Redirect on success
-                } else {
-                    alert(`Error: ${data.message}`);
-                }
-            });
+            sessionStorage.setItem('current', amount); // Store the amount in sessionStorage
+            console.log("Amount -->", amount);
+            sessionStorage.setItem('saldo', saldo - amount); // Update the new balance in localStorage   
+            console.log("newBalance -->", saldo - amount);              
+            window.location.href = '/bon'; // Redirect on success
         }
     } else if (/^[0-9]$/i.test(key) && actualInput.length < 3) {
         actualInput += key; // Add the key if it's a number and there's space
