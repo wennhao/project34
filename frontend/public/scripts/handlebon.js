@@ -15,7 +15,7 @@ socket.on('button3', function() {
     if (amount) {
         // Send amount to Arduino
         const amountString = `amount:${amount}`;
-        socket.emit('sendData', amountString, {});  // Send an empty object for data
+        socket.emit('sendData', amountString);  // Send the amount string
     }
     console.log('Redirecting to success page...');
     window.location.replace('/success');
@@ -33,20 +33,13 @@ socket.on('button6', function() {
                     determineAccountInfo(pinCode, function(success, data) {
                         if (success) {
                             console.log('Account info retrieved successfully:', data);
-                            // Combine amount and account info and send them in one event
-                            if (amount) {
-                                // Send amount to Arduino
-                                const amountString = `amount:${amount}`;
-                                socket.emit('sendData', amountString, {});  // Send an empty object for data
-                            }
-                            const customDataString = `${data.firstname},${data.balance},${amount}`;
-                            const dataString = `button6Data:${customDataString}`;
-                            socket.emit('sendData', dataString);
+                            // Combine amount and account info into a single string and send it in one event
+                            const combinedDataString = `button6Data:${data.firstname},${data.balance},${amount}`;
+                            socket.emit('sendData', combinedDataString);
                             
                             // Redirect to success page
                             console.log('Redirecting to success page...');
                             window.location.replace('/success');
-                            
                         } else {
                             console.error('Failed to retrieve account info:', data.message);
                         }

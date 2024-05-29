@@ -108,22 +108,31 @@ void setup() {
 void loop() {
   scanner();
   readKey();
-  
+
   if (Serial.available() > 0) {
     String data = Serial.readStringUntil('\n');  // Read the data until newline character ('\n')
-    Serial.println("Received data: " + data);  // Debugging line to check data received
+    Serial.println("Received data: " + data);    // Debugging line to check data received
 
     if (data.startsWith("amount:")) {
       int amount = data.substring(7).toInt();  // Extract the amount
-      opnemen(amount);  // Call opnemen with the amount
+      opnemen(amount);                         // Call opnemen with the amount
     } else if (data.startsWith("button6Data:")) {
       receiptData = data.substring(12);  // Extract the receipt data
-      shouldPrintReceipt = true;  // Set flag to print receipt
+      shouldPrintReceipt = true;         // Set flag to print receipt
+
+      // Split the string to extract the last number
+      int lastCommaIndex = receiptData.lastIndexOf(',');
+      if (lastCommaIndex > 0) {
+        String lastNumberString = receiptData.substring(lastCommaIndex + 1);
+        int amount = lastNumberString.toInt();  // Convert the last number to an integer
+        opnemen(amount);                        // Call opnemen with the amount
+      }
     }
   }
 
+
   if (shouldPrintReceipt) {
-    printReceipt(receiptData);  // Print the receipt with the data
+    printReceipt(receiptData);   // Print the receipt with the data
     shouldPrintReceipt = false;  // Reset the flag
   }
 
