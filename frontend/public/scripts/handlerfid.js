@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 function handleRFIDData(data) {
+    const messageDisplay = document.getElementById('message');
+    messageDisplay.textContent = ''; // Clear previous messages
     // Clean up the data by removing null characters and whitespace
     data = data.replace(/\u0000/g, '').replace(/\s+/g, '').trim();
 
@@ -36,6 +38,7 @@ function handleRFIDData(data) {
             // Optionally, redirect to another page or perform other actions
             window.location.href = '/pin'; // Redirect to another page if needed
         } else {
+            messageDisplay.textContent = 'Het scannen is niet gelukt. Probeer het opnieuw.';
             console.error('Invalid IBAN or UID format:', IBAN, UID);
         }
     } else {
