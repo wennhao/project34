@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateProgress() {
         if (seconds === 0) {
             clearInterval(interval);
-            window.location.href = '/'; // Redirect to the '/scan' page
+            window.location.href = '/scan'; // Redirect to the '/scan' page
         } else {
             seconds--;
             countdownElement.textContent = seconds;
