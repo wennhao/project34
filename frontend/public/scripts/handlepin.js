@@ -4,27 +4,6 @@ import determineAccountInfo from './getaccountinfo.js';
 let actualInput = ""; // This will store the actual typed characters
 let remainingAttempts = 3; // Maximum attempts allowed
 
-// Function to block card
-async function blockCard(uid) {
-    try {
-        const response = await fetch('/api/blockcard', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ uid })
-        });
-
-        const data = await response.json();
-        if (data.success) {
-            console.log('Card blocked successfully.');
-        } else {
-            console.error('Failed to block card:', data.message);
-        }
-    } catch (error) {
-        console.error('Error blocking card:', error);
-    }
-}
 
 // Response handler defined in the same module
 function responseHandler(success, data) {
