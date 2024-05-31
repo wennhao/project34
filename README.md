@@ -1,15 +1,14 @@
-﻿# README PROJECT 3/4
+﻿# PROJECT 3/4 De BANK AUTOMAAT
 Dit project is gemaakt door Jorge & Wen Hao
 # Contents
 Dit project bevat 2 mapjes, backend en frontend. 
 
 Backend bevatten code zoals de API en de Arduino code
-De arduino code die we hebben gebruikt is bedoeld voor de Arduino Mega 2560
-
+We maken gebruik van een Arduino Mega 2560 en een Ubuntu server.
 
 Om de Graphical User Interface(GUI) te runnen gebruiken we de mapje **"frontend"**.
 
-Installatie
+Installatie frontend
 ===========
 > [!IMPORTANT]
 > Om de **GUI** te starten moet je de
