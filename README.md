@@ -1,7 +1,11 @@
 ﻿# README PROJECT 3/4
 Dit project is gemaakt door Jorge & Wen Hao
 # Contents
-Dit project bevat 2 belangrijke folders, backend en frontend. 
+Dit project bevat 2 mapjes, backend en frontend. 
+
+Backend bevatten code zoals de API en de Arduino code
+De arduino code die we hebben gebruikt is bedoeld voor de Arduino Mega 2560
+
 
 Om de Graphical User Interface(GUI) te runnen gebruiken we de mapje **"frontend"**.
 
