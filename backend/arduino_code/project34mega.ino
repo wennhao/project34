@@ -1,8 +1,8 @@
+#include <SoftwareSerial.h>
+#include <Adafruit_Thermal.h>
 #include <SPI.h>
 #include <MFRC522.h>
-#include <SoftwareSerial.h>
 #include <Keypad.h>
-#include <Adafruit_Thermal.h>
 
 #define TX_PIN 10
 #define RX_PIN 11
@@ -10,14 +10,28 @@
 SoftwareSerial printer_connection(RX_PIN, TX_PIN);
 Adafruit_Thermal printer(&printer_connection);
 
+// Dispenser pinout
+const int M50ENA_PIN = 12;
+const int M50IN1_PIN = 49;
+const int M50IN2_PIN = 47;
+const int M20ENA_PIN = 45;
+const int M20IN1_PIN = 43;
+const int M20IN2_PIN = 41;
+const int M10ENA_PIN = 35;
+const int M10IN1_PIN = 39;
+const int M10IN2_PIN = 37;
+const int M5ENA_PIN = 38;
+const int M5IN1_PIN = 33;
+const int M5IN2_PIN = 31;
+
 #define SS_PIN 9
 #define RST_PIN 8
 
-MFRC522 mfrc522(SS_PIN, RST_PIN);  // Create MFRC522 instance.
+MFRC522 mfrc522(SS_PIN, RST_PIN);  // Create MFRC522 instance
 
 // Keypad setup
-const int ROW_NUM = 4;     // four rows
-const int COLUMN_NUM = 4;  // four columns
+const int ROW_NUM = 4;
+const int COLUMN_NUM = 4;
 char keys[ROW_NUM][COLUMN_NUM] = {
   { '1', '2', '3', 'A' },
   { '4', '5', '6', 'B' },
@@ -41,6 +55,9 @@ int lastButtonState1 = 0, lastButtonState2 = 0, lastButtonState3 = 0, lastButton
 unsigned long lastDebounceTime1 = 0, lastDebounceTime2 = 0, lastDebounceTime3 = 0, lastDebounceTime4 = 0, lastDebounceTime5 = 0, lastDebounceTime6 = 0;
 unsigned long debounceDelay = 50;  // Debounce time in milliseconds
 
+bool shouldPrintReceipt = false;
+String receiptData = "";
+
 void setup() {
   printer_connection.begin(19200);
   printer_connection.write(27);
@@ -50,6 +67,34 @@ void setup() {
   SPI.begin();         // Initiate SPI bus
   mfrc522.PCD_Init();  // Initiate MFRC522
   Serial.println();
+
+  // Dispenser pins
+  pinMode(M50ENA_PIN, OUTPUT);
+  pinMode(M50IN1_PIN, OUTPUT);
+  pinMode(M50IN2_PIN, OUTPUT);
+  pinMode(M20ENA_PIN, OUTPUT);
+  pinMode(M20IN1_PIN, OUTPUT);
+  pinMode(M20IN2_PIN, OUTPUT);
+  pinMode(M10ENA_PIN, OUTPUT);
+  pinMode(M10IN1_PIN, OUTPUT);
+  pinMode(M10IN2_PIN, OUTPUT);
+  pinMode(M5ENA_PIN, OUTPUT);
+  pinMode(M5IN1_PIN, OUTPUT);
+  pinMode(M5IN2_PIN, OUTPUT);
+
+  analogWrite(M50ENA_PIN, 130);
+  analogWrite(M20ENA_PIN, 130);
+  analogWrite(M10ENA_PIN, 130);
+  analogWrite(M5ENA_PIN, 200);
+
+  digitalWrite(M50IN1_PIN, LOW);
+  digitalWrite(M50IN2_PIN, LOW);
+  digitalWrite(M20IN1_PIN, LOW);
+  digitalWrite(M20IN2_PIN, LOW);
+  digitalWrite(M10IN1_PIN, LOW);
+  digitalWrite(M10IN2_PIN, LOW);
+  digitalWrite(M5IN1_PIN, LOW);
+  digitalWrite(M5IN2_PIN, LOW);
 
   // Setup button pins with internal pull-up resistors
   pinMode(buttonPin1, INPUT_PULLUP);
@@ -64,11 +109,31 @@ void loop() {
   scanner();
   readKey();
 
-  if (Serial.available() > 0) {                  // Check if data is available to read
+  if (Serial.available() > 0) {
     String data = Serial.readStringUntil('\n');  // Read the data until newline character ('\n')
-    //printer.println("Received data: " + data);
-    printReceipt(data);  // Call function to print the receipt
-    printer.feed(3);     // Feed paper
+    Serial.println("Received data: " + data);    // Debugging line to check data received
+
+    if (data.startsWith("amount:")) {
+      int amount = data.substring(7).toInt();  // Extract the amount
+      opnemen(amount);                         // Call opnemen with the amount
+    } else if (data.startsWith("button6Data:")) {
+      receiptData = data.substring(12);  // Extract the receipt data
+      shouldPrintReceipt = true;         // Set flag to print receipt
+
+      // Split the string to extract the last number
+      int lastCommaIndex = receiptData.lastIndexOf(',');
+      if (lastCommaIndex > 0) {
+        String lastNumberString = receiptData.substring(lastCommaIndex + 1);
+        int amount = lastNumberString.toInt();  // Convert the last number to an integer
+        opnemen(amount);                        // Call opnemen with the amount
+      }
+    }
+  }
+
+
+  if (shouldPrintReceipt) {
+    printReceipt(receiptData);   // Print the receipt with the data
+    shouldPrintReceipt = false;  // Reset the flag
   }
 
   // Check buttons with debouncing
@@ -102,8 +167,6 @@ void scanner() {
   byte len;
   MFRC522::StatusCode status;
 
-  //-------------------------------------------
-
   // Reset the loop if no new card present on the sensor/reader. This saves the entire process when idle.
   if (!mfrc522.PICC_IsNewCardPresent()) {
     return;
@@ -121,8 +184,8 @@ void scanner() {
   block = 4;
   len = 18;
 
-  //------------------------------------------- GET [Block 4]
-  status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, 4, &key, &(mfrc522.uid));  // Authenticate
+  // GET [Block 4]
+  status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, 4, &key, &(mfrc522.uid));  // Line 834 of MFRC522.cpp file
   if (status != MFRC522::STATUS_OK) {
     Serial.print(F("Authentication failed: "));
     Serial.println(mfrc522.GetStatusCodeName(status));
@@ -143,12 +206,11 @@ void scanner() {
     }
   }
 
-  //---------------------------------------- GET [Block 5]
-
+  // GET [Block 5]
   byte buffer2[18];
   block = 5;
 
-  status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, 5, &key, &(mfrc522.uid));  // Authenticate
+  status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, 5, &key, &(mfrc522.uid));  // Line 834
   if (status != MFRC522::STATUS_OK) {
     Serial.print(F("Authentication failed: "));
     Serial.println(mfrc522.GetStatusCodeName(status));
@@ -167,9 +229,25 @@ void scanner() {
     Serial.write(buffer2[i]);
   }
 
-  //---------------------------------------- GET UID
+  // GET UID [Block 0]
+  byte buffer3[18];
+  block = 0;
 
-  // Print UID in uppercase with leading zeros
+  status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, 0, &key, &(mfrc522.uid));  // Line 834 of MFRC522.cpp file
+  if (status != MFRC522::STATUS_OK) {
+    Serial.print(F("Authentication failed: "));
+    Serial.println(mfrc522.GetStatusCodeName(status));
+    return;
+  }
+
+  status = mfrc522.MIFARE_Read(block, buffer3, &len);
+  if (status != MFRC522::STATUS_OK) {
+    Serial.print(F("Reading failed: "));
+    Serial.println(mfrc522.GetStatusCodeName(status));
+    return;
+  }
+
+  // PRINT UID
   for (byte i = 0; i < mfrc522.uid.size; i++) {
     if (mfrc522.uid.uidByte[i] < 0x10) {
       Serial.print("0");
@@ -183,7 +261,6 @@ void scanner() {
   mfrc522.PICC_HaltA();
   mfrc522.PCD_StopCrypto1();
 }
-
 
 bool readAndDebounceButton(int buttonPin, int& lastState, unsigned long& lastDebounceTime, int& buttonState) {
   int reading = digitalRead(buttonPin);
@@ -217,11 +294,12 @@ void readKey() {
 
 void printReceipt(String data) {
   // Split the data into fields using a delimiter, e.g., comma
-  // Example data: "John,100"
-  int separatorIndex = data.indexOf(',');
-  String name = data.substring(0, separatorIndex);
-  String balance = data.substring(separatorIndex + 1);
-  String amount = data.substring(separatorIndex + 2);
+  int firstSeparatorIndex = data.indexOf(',');
+  int secondSeparatorIndex = data.indexOf(',', firstSeparatorIndex + 1);
+
+  String name = data.substring(0, firstSeparatorIndex);
+  String balance = data.substring(firstSeparatorIndex + 1, secondSeparatorIndex);
+  String amount = data.substring(secondSeparatorIndex + 1);
 
   printer.setFont('A');
   printer.justify('C');
@@ -237,8 +315,8 @@ void printReceipt(String data) {
   printer.print("Naam: ");
   printer.println(name);
   printer.print("Datum: ");
-  printer.println("28/05/2024   Tijd: 12:40");  // You can update the date and time dynamically
-  printer.println("Kaart: xxxxxxxxxxxxxx1234");
+  printer.println("30/05/2024   Tijd: 12:40");  // You can update the date and time dynamically
+  printer.println("Kaart: xxxxxxxxxxxxx1234");
   printer.justify('C');
   printer.println("--------------------------------");
   printer.setSize('M');
@@ -247,6 +325,56 @@ void printReceipt(String data) {
   printer.setSize('S');
   printer.setFont('B');
   printer.feed();
-  printer.println("Transactie: xxx");  // You can update the transaction ID dynamically
+  printer.print("Opgenomen bedrag: ");
+  printer.println(amount);// You can update the transaction ID dynamically
   printer.feed(4);
+}
+
+void opnemen(int bedrag) {
+  Serial.println("Opnemen called with bedrag: " + String(bedrag));  // Debugging line to check the amount
+
+  while (bedrag > 0) {
+    delay(800);
+    if (bedrag >= 50) {
+      Serial.println("Dispensing 50");
+      bedrag -= 50;
+      Serial.println("Remaining amount: " + String(bedrag));
+      digitalWrite(M50IN1_PIN, HIGH);
+      digitalWrite(M50IN2_PIN, LOW);
+      delay(290);
+      digitalWrite(M50IN1_PIN, LOW);
+      digitalWrite(M50IN2_PIN, LOW);
+    } else if (bedrag >= 20) {
+      Serial.println("Dispensing 20");
+      bedrag -= 20;
+      Serial.println("Remaining amount: " + String(bedrag));
+      digitalWrite(M20IN1_PIN, HIGH);
+      digitalWrite(M20IN2_PIN, LOW);
+      delay(225);
+      digitalWrite(M20IN1_PIN, LOW);
+      digitalWrite(M20IN2_PIN, LOW);
+    } else if (bedrag >= 10) {
+      Serial.println("Dispensing 10");
+      bedrag -= 10;
+      Serial.println("Remaining amount: " + String(bedrag));
+      digitalWrite(M10IN1_PIN, HIGH);
+      digitalWrite(M10IN2_PIN, LOW);
+      delay(197);
+      digitalWrite(M10IN1_PIN, LOW);
+      digitalWrite(M10IN2_PIN, LOW);
+    } else if (bedrag >= 5) {
+      Serial.println("Dispensing 5");
+      bedrag -= 5;
+      Serial.println("Remaining amount: " + String(bedrag));
+      digitalWrite(M5IN1_PIN, HIGH);
+      digitalWrite(M5IN2_PIN, LOW);
+      delay(300);
+      digitalWrite(M5IN1_PIN, LOW);
+      digitalWrite(M5IN2_PIN, LOW);
+    }
+  }
+
+  if (bedrag == 0) {
+    Serial.println("Transaction complete");
+  }
 }

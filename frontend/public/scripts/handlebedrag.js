@@ -26,7 +26,7 @@ function handleInput(key) {
                 console.log("newBalance -->", saldo - amount);              
                 window.location.href = '/bon'; // Redirect on success
             } else if (actualInput > pinLimit) {
-                messageDisplay.textContent = 'Het maximale bedrag dat kan worden opgenomen is €150.';
+                messageDisplay.textContent = 'Het maximale bedrag dat kan worden opgenomen is €500.';
             } else {
                 messageDisplay.textContent = 'Voer een bedrag in dat eindigt op 0 of 5.';
             }
