@@ -131,7 +131,7 @@ app.post('/api/withdraw', async (req, res) => {
             `UPDATE account SET saldo = ? WHERE account_id = ?`,
             [newBalance, accountInfo.account_id]
           );
-          res.status(200).json({ success: true });
+          res.status(200).json({ success: true});
         } else {
           res.status(412).json({ success: false, message: "No Balance" });
         }
@@ -149,35 +149,6 @@ app.post('/api/withdraw', async (req, res) => {
   }
 });
 
-app.post('/api/checkaccount', async (req, res) => {
-  const { iban, uid } = req.body;
-
-  try {
-    const connection = await mysql.createConnection(dbConfig);
-    const [rows] = await connection.execute(
-      `SELECT COUNT(*) as count, b.blocked
-       FROM account a
-       INNER JOIN bankpassen b ON a.bankpas_id = b.bankpas_id
-       WHERE a.rekening_nummer = ? AND b.uid = ?`,
-      [iban, uid]
-    );
-
-    await connection.end();
-
-    if (rows[0].count > 0) {
-      res.json({
-        success: true,
-        message: 'IBAN and UID exist.',
-        blocked: rows[0].blocked
-      });
-    } else {
-      res.status(404).json({ success: false, message: 'IBAN or UID does not exist.' });
-    }
-  } catch (error) {
-    console.error('Database connection failed:', error);
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
-  }
-});
 
 app.post('/api/blockcard', async (req, res) => {
   const { uid } = req.body;
@@ -201,6 +172,115 @@ app.post('/api/blockcard', async (req, res) => {
     res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 });
+
+//noob stuff
+// New endpoint to fetch account info from NOOB API
+app.post('/api/accountinfo/noob', async (req, res) => {
+  const { target } = req.query; // Read target from query parameters
+  const { uid, pincode } = req.body; // Read uid and pincode from JSON body
+
+  console.log("Received on server for NOOB - Target:", target, "PIN:", pincode, "UID:", uid); // Log what is received
+
+  // Validate input parameters
+  if (!target || !uid || !pincode) {
+    return res.status(400).json({ success: false, message: "Missing required parameters" });
+  }
+
+  const apiUrl = `https://noob.datalabrotterdam.nl/api/noob/accountinfo?target=${target}`;
+  const data = {
+    uid: uid,
+    pincode: pincode
+  };
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'noob-token': '4069cfd0-ec82-44da-b173-6e1e9df06b18'  // Replace with actual token if needed
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok ' + response.statusText);
+    }
+
+    const dataResponse = await response.json();
+
+    if (dataResponse && dataResponse.firstname) {
+      res.status(200).json({
+        firstname: dataResponse.firstname,
+        lastname: dataResponse.lastname,
+        balance: dataResponse.balance
+      });
+    } else if (dataResponse && dataResponse.attempts_remaining !== undefined) {
+      res.status(401).json({
+        success: false,
+        message: 'Unauthorized: Incorrect PIN',
+        attempts_remaining: dataResponse.attempts_remaining
+      });
+    } else {
+      res.status(400).json({ success: false, message: 'Failed to fetch data' });
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch data: ' + error.message });
+  }
+});
+
+app.post('/api/withdraw/noob', async (req, res) => {
+  const { target } = req.query; // Read target from query parameters
+  const { uid, pincode, amount } = req.body; // Read uid, pincode, and amount from JSON body
+
+  // Log the received parameters
+  console.log("Received on server for NOOB withdraw - Target:", target, "PIN:", pincode, "UID:", uid, "Amount:", amount);
+
+  // Validate input parameters
+  if (!target || !uid || !pincode || amount === undefined) {
+    console.error("Missing required parameters");
+    return res.status(400).json({ success: false, message: "Missing required parameters" });
+  }
+
+  if (amount <= 0) {
+    console.error("Invalid withdrawal amount");
+    return res.status(400).json({ success: false, message: "Invalid withdrawal amount" });
+  }
+
+  const apiUrl = `https://noob.datalabrotterdam.nl/api/noob/withdraw?target=${target}`;
+  const data = {
+    uid: uid,
+    pincode: pincode,
+    amount: amount
+  };
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'noob-token': '4069cfd0-ec82-44da-b173-6e1e9df06b18'  // Replace with actual token if needed
+      },
+      body: JSON.stringify(data)
+    });
+
+    const dataResponse = await response.json();
+
+    // Log response status and data for debugging
+    console.log("Response status:", response.status);
+    console.log("Response data:", dataResponse);
+
+    if (response.ok && dataResponse.success) {
+      res.status(200).json({ success: true });
+    } else {
+      res.status(response.status).json({ success: false, message: dataResponse.message || 'Failed to process withdrawal' });
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ success: false, message: 'Failed to process withdrawal: ' + error.message });
+  }
+});
+
 
 // Start the server
 app.listen(port, () => {
