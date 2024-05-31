@@ -3,7 +3,8 @@ Dit project is gemaakt door Jorge & Wen Hao
 # Contents
 Dit project bevat 2 mapjes, backend en frontend. 
 
-Backend bevatten code zoals de API en de Arduino code. \n
+Backend bevat code zoals de API en de Arduino code. 
+
 We maken gebruik van een Arduino Mega 2560 en een Ubuntu server.
 
 Om de Graphical User Interface(GUI) te runnen gebruiken we de mapje **"frontend"**.
