@@ -1,5 +1,5 @@
 let actualInput = ""; // This will store the actual typed characters
-let pinLimit = 150; // Maximum amount that can be withdrawn
+
 const saldo = sessionStorage.getItem('saldo');
 if (saldo) {
     const messageDisplay = document.getElementById('balance');
@@ -22,10 +22,10 @@ function handleInput(key) {
                 // Call the withdraw function
                 sessionStorage.setItem('current', amount); // Store the amount in sessionStorage
                 console.log("Amount -->", amount);
-                sessionStorage.setItem('saldo', saldo - amount); // Update the new balance in localStorage   
+                sessionStorage.setItem('saldo', saldo - amount); // Update the new balance in sessionStorage   
                 console.log("newBalance -->", saldo - amount);              
                 window.location.href = '/bon'; // Redirect on success
-            } else if (actualInput > pinLimit) {
+            } else if (amount > 151.00) {
                 messageDisplay.textContent = 'Het maximale bedrag dat kan worden opgenomen is €500.';
             } else {
                 messageDisplay.textContent = 'Voer een bedrag in dat eindigt op 0 of 5.';
